@@ -1,0 +1,19 @@
+{
+  "sqltools.connections": [
+    {
+      "mysqlOptions": {
+        "authProtocol": "mysql_native_password",
+        "enableSsl": false
+      },
+      "previewLimit": 50,
+      "server": "127.0.0.1",
+      "port": 3306,
+      "driver": "MySQL",
+      "name": "Coastal Region Database",
+      "database": "coastal_region",
+      "username": "root",
+      "password": "thaslim@9695",
+      "connectTimeout": 30
+    }
+  ]
+}

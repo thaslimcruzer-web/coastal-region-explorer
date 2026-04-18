@@ -1,18 +1,8 @@
-# Dependencies
-node_modules/
-
-# IDE
-.vscode/
-.idea/
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
+.vercel
+.vercel-tmp
+node_modules
+.env
 *.log
+.DS_Store
+nul
 npm-debug.log*
-
-# Build
-dist/
-build/
