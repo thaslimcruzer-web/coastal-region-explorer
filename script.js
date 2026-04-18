@@ -214,28 +214,28 @@ const PLACE_DETAIL_CONTENT = {
 
 const SPECIES_DATA = {
   fish: [
-    { name: 'Parrotfish', scientific: 'Scaridae', desc: 'Vibrant blue-green fish that feed on coral polyps and sand', rarity: 'Common', color: '#00c8ff' },
-    { name: 'Moorish Idol', scientific: 'Zanclus cornutus', desc: 'Distinctive black, white and yellow striped reef fish', rarity: 'Common', color: '#ffd700' },
-    { name: 'Lionfish', scientific: 'Pterois miles', desc: 'Beautifully striped but venomous predator — observe from afar', rarity: 'Occasional', color: '#ff6b6b' },
-    { name: 'Clownfish', scientific: 'Amphiprion bicinctus', desc: 'Orange-and-white fish living symbiotic with anemones', rarity: 'Common', color: '#ff8c00' },
-    { name: 'Barracuda', scientific: 'Sphyraena barracuda', desc: 'Sleek open-water predator often seen near reef edges', rarity: 'Occasional', color: '#7c8a99' },
+    { name: 'Parrotfish', scientific: 'Scaridae', desc: 'Vibrant blue-green fish that feed on coral polyps and sand', rarity: 'Common', color: '#00c8ff', image: 'images/parrot fish.jpg' },
+    { name: 'Moorish Idol', scientific: 'Zanclus cornutus', desc: 'Distinctive black, white and yellow striped reef fish', rarity: 'Common', color: '#ffd700', image: 'images/moorish_idol fish.jpg' },
+    { name: 'Lionfish', scientific: 'Pterois miles', desc: 'Beautifully striped but venomous predator — observe from afar', rarity: 'Occasional', color: '#ff6b6b', image: 'images/lion fish.JPG' },
+    { name: 'Clownfish', scientific: 'Amphiprion bicinctus', desc: 'Orange-and-white fish living symbiotic with anemones', rarity: 'Common', color: '#ff8c00', image: 'images/clownfish.jpg' },
+    { name: 'Barracuda', scientific: 'Sphyraena barracuda', desc: 'Sleek open-water predator often seen near reef edges', rarity: 'Occasional', color: '#7c8a99', image: 'images/Barracuda fish.jpg' },
   ],
   coral: [
-    { name: 'Staghorn Coral', scientific: 'Acropora cervicornis', desc: 'Fast-growing branching coral, critical reef-builder', rarity: 'Common', color: '#b0e0e6' },
-    { name: 'Brain Coral', scientific: 'Diploria labyrinthiformis', desc: 'Massive rounded coral with characteristic groove pattern', rarity: 'Common', color: '#d2b48c' },
-    { name: 'Mushroom Coral', scientific: 'Fungiidae', desc: 'Solitary free-living coral that resembles a mushroom cap', rarity: 'Occasional', color: '#90ee90' },
-    { name: 'Table Coral', scientific: 'Acropora hyacinthus', desc: 'Flat plate-like formations providing shelter for reef fish', rarity: 'Common', color: '#87ceeb' },
+    { name: 'Staghorn Coral', scientific: 'Acropora cervicornis', desc: 'Fast-growing branching coral, critical reef-builder', rarity: 'Common', color: '#b0e0e6', image: 'images/coral.jpg' },
+    { name: 'Brain Coral', scientific: 'Diploria labyrinthiformis', desc: 'Massive rounded coral with characteristic groove pattern', rarity: 'Common', color: '#d2b48c', image: 'images/coral 2.jpg' },
+    { name: 'Mushroom Coral', scientific: 'Fungiidae', desc: 'Solitary free-living coral that resembles a mushroom cap', rarity: 'Occasional', color: '#90ee90', image: 'images/Acanthastrea_coral.jpg' },
+    { name: 'Table Coral', scientific: 'Acropora hyacinthus', desc: 'Flat plate-like formations providing shelter for reef fish', rarity: 'Common', color: '#87ceeb', image: 'images/Coral 1.webp' },
   ],
   turtle: [
-    { name: 'Green Sea Turtle', scientific: 'Chelonia mydas', desc: 'The most commonly sighted turtle; feeds on seagrass', rarity: 'Common', color: '#3cb371' },
-    { name: 'Hawksbill Turtle', scientific: 'Eretmochelys imbricata', desc: 'Critically endangered; identified by narrow pointed beak', rarity: 'Rare', color: '#cd853f' },
-    { name: 'Leatherback Turtle', scientific: 'Dermochelys coriacea', desc: 'World\'s largest turtle; rare offshore visitor', rarity: 'Very Rare', color: '#696969' },
+    { name: 'Green Sea Turtle', scientific: 'Chelonia mydas', desc: 'The most commonly sighted turtle; feeds on seagrass', rarity: 'Common', color: '#3cb371', image: 'images/turtles 1.webp' },
+    { name: 'Hawksbill Turtle', scientific: 'Eretmochelys imbricata', desc: 'Critically endangered; identified by narrow pointed beak', rarity: 'Rare', color: '#cd853f', image: 'images/turtles 2.jpg' },
+    { name: 'Leatherback Turtle', scientific: 'Dermochelys coriacea', desc: 'World\'s largest turtle; rare offshore visitor', rarity: 'Very Rare', color: '#696969', image: 'images/turtles 3.jpg' },
   ],
   other: [
-    { name: 'Octopus', scientific: 'Octopus vulgaris', desc: 'Intelligent camouflaging cephalopod found in rocky zones', rarity: 'Occasional', color: '#9370db' },
-    { name: 'Starfish', scientific: 'Asteroidea', desc: 'Sea stars found resting on sandy bottoms and reef flats', rarity: 'Common', color: '#ff6347' },
-    { name: 'Jellyfish', scientific: 'Medusozoa', desc: 'Seasonal visitors; admire from a safe distance', rarity: 'Seasonal', color: '#add8e6' },
-    { name: 'Sea Cucumber', scientific: 'Holothuroidea', desc: 'Bottom-dwelling scavengers important to reef health', rarity: 'Common', color: '#8b4513' },
+    { name: 'Octopus', scientific: 'Octopus vulgaris', desc: 'Intelligent camouflaging cephalopod found in rocky zones', rarity: 'Occasional', color: '#9370db', image: 'images/WhatsApp Image 2026-04-18 at 01.23.34.jpeg' },
+    { name: 'Starfish', scientific: 'Asteroidea', desc: 'Sea stars found resting on sandy bottoms and reef flats', rarity: 'Common', color: '#ff6347', image: 'images/other star fish.jpg' },
+    { name: 'Jellyfish', scientific: 'Medusozoa', desc: 'Seasonal visitors; admire from a safe distance', rarity: 'Seasonal', color: '#add8e6', image: 'images/other jelly.jpg' },
+    { name: 'Sea Cucumber', scientific: 'Holothuroidea', desc: 'Bottom-dwelling scavengers important to reef health', rarity: 'Common', color: '#8b4513', image: 'images/Coral 3.webp' },
   ],
 };
 
@@ -983,6 +983,9 @@ function renderSpecies(tab) {
   const data = SPECIES_DATA[tab] || [];
   grid.innerHTML = data.map(s => `
     <div class="species-card">
+      <div class="species-image-wrapper">
+        <img src="${s.image}" alt="${s.name}" loading="lazy">
+      </div>
       <div class="species-color-dot" style="background:${s.color}"></div>
       <div class="species-info">
         <strong>${s.name}</strong>
