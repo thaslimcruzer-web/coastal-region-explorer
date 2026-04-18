@@ -232,7 +232,7 @@ const SPECIES_DATA = {
     { name: 'Leatherback Turtle', scientific: 'Dermochelys coriacea', desc: 'World\'s largest turtle; rare offshore visitor', rarity: 'Very Rare', color: '#696969', image: 'images/turtles 3.jpg' },
   ],
   other: [
-    { name: 'Octopus', scientific: 'Octopus vulgaris', desc: 'Intelligent camouflaging cephalopod found in rocky zones', rarity: 'Occasional', color: '#9370db', image: 'images/WhatsApp Image 2026-04-18 at 01.23.34.jpeg' },
+    { name: 'Octopus', scientific: 'Octopus vulgaris', desc: 'Intelligent camouflaging cephalopod found in rocky zones', rarity: 'Occasional', color: '#9370db', image: 'images/octopus.jpg' },
     { name: 'Starfish', scientific: 'Asteroidea', desc: 'Sea stars found resting on sandy bottoms and reef flats', rarity: 'Common', color: '#ff6347', image: 'images/other star fish.jpg' },
     { name: 'Jellyfish', scientific: 'Medusozoa', desc: 'Seasonal visitors; admire from a safe distance', rarity: 'Seasonal', color: '#add8e6', image: 'images/other jelly.jpg' },
     { name: 'Sea Cucumber', scientific: 'Holothuroidea', desc: 'Bottom-dwelling scavengers important to reef health', rarity: 'Common', color: '#8b4513', image: 'images/Coral 3.webp' },
