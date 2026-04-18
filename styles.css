@@ -1214,6 +1214,395 @@ footer {
 }
 
 /* -------------------------------------------------------
+   BEACH DISCOVERY SECTION
+------------------------------------------------------- */
+.beach-discovery-section {
+  background: linear-gradient(135deg, #0a1628 0%, #0d2144 50%, #0a2540 100%);
+  padding: 5rem 5%;
+}
+
+/* Beach Stats */
+.beach-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+.beach-stat-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+  color: #fff;
+  transition: var(--transition);
+}
+.beach-stat-card:hover {
+  background: rgba(255,255,255,.08);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0,184,212,.2);
+}
+.beach-stat-card i {
+  font-size: 2.5rem;
+  color: var(--ocean-teal);
+  margin-bottom: 1rem;
+  display: block;
+}
+.beach-stat-card h3 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: .5rem;
+  background: linear-gradient(135deg, var(--ocean-teal), var(--ocean-bright));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.beach-stat-card span {
+  font-size: .85rem;
+  color: rgba(255,255,255,.6);
+}
+
+/* Beach Categories */
+.beach-categories {
+  display: flex;
+  gap: .8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+.beach-cat-btn {
+  padding: .7rem 1.5rem;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.05);
+  color: rgba(255,255,255,.7);
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.beach-cat-btn:hover {
+  background: rgba(255,255,255,.1);
+  border-color: rgba(255,255,255,.3);
+  color: #fff;
+}
+.beach-cat-btn.active {
+  background: var(--ocean-teal);
+  border-color: var(--ocean-teal);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0,184,212,.4);
+}
+
+/* Beach Discovery Grid */
+.beach-discovery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+.beach-detail-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: var(--transition);
+  opacity: 0;
+  transform: translateY(20px);
+}
+.beach-detail-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.beach-detail-card:hover {
+  background: rgba(255,255,255,.08);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0,184,212,.25);
+  border-color: rgba(0,184,212,.3);
+}
+.beach-card-header {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+.beach-card-header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+.beach-detail-card:hover .beach-card-header img {
+  transform: scale(1.08);
+}
+.beach-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,22,40,.8) 0%, transparent 60%);
+}
+.beach-card-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0,184,212,.9);
+  color: #fff;
+  padding: .4rem .8rem;
+  border-radius: var(--radius-pill);
+  font-size: .75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+.beach-card-rating {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  background: rgba(255,255,255,.95);
+  color: var(--text-primary);
+  padding: .4rem .8rem;
+  border-radius: var(--radius-md);
+  font-size: .85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.beach-card-rating i {
+  color: var(--accent-amber);
+}
+.beach-card-body {
+  padding: 1.5rem;
+}
+.beach-card-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: .5rem;
+}
+.beach-card-location {
+  font-size: .85rem;
+  color: var(--ocean-teal);
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin-bottom: 1rem;
+}
+.beach-card-desc {
+  font-size: .88rem;
+  color: rgba(255,255,255,.7);
+  line-height: 1.6;
+  margin-bottom: 1.2rem;
+}
+.beach-card-features {
+  background: rgba(255,255,255,.05);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 1.2rem;
+}
+.beach-card-features h4 {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--ocean-teal);
+  margin-bottom: .8rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.beach-card-features ul {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.beach-card-features li {
+  font-size: .82rem;
+  color: rgba(255,255,255,.7);
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+}
+.beach-card-features li i {
+  color: var(--accent-green);
+  font-size: .75rem;
+  margin-top: .2rem;
+}
+.beach-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 1.2rem;
+}
+.beach-tag {
+  font-size: .72rem;
+  font-weight: 600;
+  padding: .3rem .7rem;
+  border-radius: var(--radius-pill);
+  background: rgba(0,184,212,.1);
+  color: var(--ocean-teal);
+  border: 1px solid rgba(0,184,212,.2);
+}
+.beach-card-actions {
+  display: flex;
+  gap: .8rem;
+}
+.beach-view-btn {
+  flex: 1;
+  padding: .7rem;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--ocean-teal), var(--ocean-bright));
+  color: #fff;
+  font-size: .85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  transition: var(--transition);
+  border: none;
+}
+.beach-view-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,184,212,.4);
+}
+.beach-compare-btn {
+  padding: .7rem 1.2rem;
+  border-radius: var(--radius-md);
+  border: 1.5px solid rgba(255,255,255,.2);
+  color: rgba(255,255,255,.8);
+  font-size: .85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  transition: var(--transition);
+  background: transparent;
+}
+.beach-compare-btn:hover {
+  border-color: var(--ocean-teal);
+  color: var(--ocean-teal);
+}
+.beach-compare-btn.selected {
+  background: var(--accent-green);
+  border-color: var(--accent-green);
+  color: #fff;
+}
+
+/* Beach Comparison */
+.beach-comparison {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  margin-top: 3rem;
+}
+.beach-comparison h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+.beach-comparison h3 i {
+  color: var(--ocean-teal);
+}
+.beach-comparison > p {
+  font-size: .88rem;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 1.5rem;
+}
+.comparison-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.comparison-slot {
+  background: rgba(255,255,255,.05);
+  border: 2px dashed rgba(255,255,255,.15);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+  color: rgba(255,255,255,.4);
+  transition: var(--transition);
+  cursor: pointer;
+}
+.comparison-slot.empty:hover {
+  border-color: var(--ocean-teal);
+  background: rgba(0,184,212,.05);
+}
+.comparison-slot.filled {
+  border-style: solid;
+  border-color: var(--ocean-teal);
+  background: rgba(0,184,212,.1);
+  color: #fff;
+}
+.comparison-slot i {
+  font-size: 2rem;
+  margin-bottom: .5rem;
+  display: block;
+}
+.comparison-slot span {
+  font-size: .85rem;
+  font-weight: 600;
+}
+.comparison-content {
+  background: rgba(255,255,255,.05);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.comparison-table th,
+.comparison-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.comparison-table th {
+  color: var(--ocean-teal);
+  font-weight: 700;
+  font-size: .85rem;
+}
+.comparison-table td {
+  color: rgba(255,255,255,.8);
+  font-size: .85rem;
+}
+.comparison-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Responsive for Beach Discovery */
+@media (max-width: 1200px) {
+  .beach-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 1023px) {
+  .beach-discovery-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .comparison-slots { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .beach-stats { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .beach-stat-card { padding: 1.5rem; }
+  .beach-stat-card h3 { font-size: 1.5rem; }
+  .beach-categories { gap: .5rem; }
+  .beach-cat-btn { padding: .5rem 1rem; font-size: .8rem; }
+  .beach-discovery-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .beach-stats { grid-template-columns: 1fr; }
+  .beach-card-header { height: 180px; }
+  .beach-card-actions { flex-direction: column; }
+}
+
+/* -------------------------------------------------------
    RESPONSIVE
 ------------------------------------------------------- */
 @media (max-width: 1200px) {

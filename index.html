@@ -32,6 +32,7 @@
         <nav>
             <ul class="nav-links">
                 <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+                <li><a href="#beach-discovery" class="nav-link" data-section="beach-discovery">Beaches</a></li>
                 <li><a href="#explore" class="nav-link" data-section="explore">Explore</a></li>
                 <li><a href="#map" class="nav-link" data-section="map">Map</a></li>
                 <li><a href="#environment" class="nav-link" data-section="environment">Environment</a></li>
@@ -57,6 +58,7 @@
     <div class="mobile-menu" id="mobileMenu">
         <ul>
             <li><a href="#home" class="mobile-link">Home</a></li>
+            <li><a href="#beach-discovery" class="mobile-link">Beaches</a></li>
             <li><a href="#explore" class="mobile-link">Explore</a></li>
             <li><a href="#map" class="mobile-link">Map</a></li>
             <li><a href="#environment" class="mobile-link">Environment</a></li>
@@ -113,7 +115,7 @@
             <div class="search-form" id="mainSearchForm">
                 <div class="search-input-group">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" placeholder="Search beaches, activities, restaurants..." autocomplete="off">
+                    <input type="text" id="searchInput" placeholder="Search beaches, locations, activities..." autocomplete="off">
                     <div class="search-suggestions" id="searchSuggestions"></div>
                 </div>
                 <div class="filter-group">
@@ -179,22 +181,93 @@
         </div>
     </div>
 
+    <!-- Beach Discovery Section -->
+    <section id="beach-discovery" class="beach-discovery-section">
+        <div class="section-header light">
+            <div class="section-tag">Beach Guide</div>
+            <h2>Discover Our Beaches</h2>
+            <p>Explore 19 unique beaches along the Pasikudah & Kalkudah coastline, each with its own character and charm.</p>
+        </div>
+
+        <!-- Beach Stats -->
+        <div class="beach-stats">
+            <div class="beach-stat-card">
+                <i class="fa-solid fa-umbrella-beach"></i>
+                <h3>19</h3>
+                <span>Unique Beaches</span>
+            </div>
+            <div class="beach-stat-card">
+                <i class="fa-solid fa-water"></i>
+                <h3>27-29°C</h3>
+                <span>Water Temperature</span>
+            </div>
+            <div class="beach-stat-card">
+                <i class="fa-solid fa-sun"></i>
+                <h3>300+</h3>
+                <span>Sunny Days/Year</span>
+            </div>
+            <div class="beach-stat-card">
+                <i class="fa-solid fa-fish"></i>
+                <h3>200+</h3>
+                <span>Marine Species</span>
+            </div>
+        </div>
+
+        <!-- Beach Categories -->
+        <div class="beach-categories">
+            <button class="beach-cat-btn active" data-beach-cat="all">
+                <i class="fa-solid fa-layer-group"></i> All Beaches
+            </button>
+            <button class="beach-cat-btn" data-beach-cat="family">
+                <i class="fa-solid fa-children"></i> Family-Friendly
+            </button>
+            <button class="beach-cat-btn" data-beach-cat="snorkeling">
+                <i class="fa-solid fa-mask-snorkel"></i> Snorkeling
+            </button>
+            <button class="beach-cat-btn" data-beach-cat="secluded">
+                <i class="fa-solid fa-user-shield"></i> Secluded
+            </button>
+            <button class="beach-cat-btn" data-beach-cat="cultural">
+                <i class="fa-solid fa-people-group"></i> Cultural
+            </button>
+            <button class="beach-cat-btn" data-beach-cat="wildlife">
+                <i class="fa-solid fa-paw"></i> Wildlife
+            </button>
+        </div>
+
+        <!-- Beach Cards Grid -->
+        <div class="beach-discovery-grid" id="beachDiscoveryGrid">
+            <!-- Dynamically populated -->
+        </div>
+
+        <!-- Beach Comparison Tool -->
+        <div class="beach-comparison" id="beachComparison">
+            <h3><i class="fa-solid fa-code-compare"></i> Compare Beaches</h3>
+            <p>Select up to 3 beaches to compare their features side-by-side.</p>
+            <div class="comparison-slots" id="comparisonSlots">
+                <div class="comparison-slot empty">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Select Beach 1</span>
+                </div>
+                <div class="comparison-slot empty">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Select Beach 2</span>
+                </div>
+                <div class="comparison-slot empty">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Select Beach 3</span>
+                </div>
+            </div>
+            <div class="comparison-content" id="comparisonContent" style="display:none;"></div>
+        </div>
+    </section>
+
     <!-- Explore Section -->
     <section id="explore" class="explore-section">
         <div class="section-header">
             <div class="section-tag">Discover</div>
             <h2>Explore the Coast</h2>
             <p>From world-famous lagoons to hidden gems, discover everything Pasikudah and Kalkudah have to offer.</p>
-        </div>
-
-        <!-- Filter Bar -->
-        <div class="filter-bar">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="beach">Beaches</button>
-            <button class="filter-btn" data-filter="activity">Activities</button>
-            <button class="filter-btn" data-filter="hotel">Accommodation</button>
-            <button class="filter-btn" data-filter="restaurant">Dining</button>
-            <button class="filter-btn" data-filter="marine">Marine Life</button>
         </div>
 
         <div class="places-grid" id="placesGrid">
@@ -554,10 +627,10 @@
             <div class="about-image">
                 <div class="about-img-stack">
                     <div class="img-card img-card-1">
-                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop" alt="Pasikudah Beach">
+                        <img src="images/pasikuda-beach-900_orig.jpg" alt="Pasikudah Beach">
                     </div>
                     <div class="img-card img-card-2">
-                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400&auto=format&fit=crop" alt="Underwater coral">
+                        <img src="images/Coral-Cove-beach-2.jpg" alt="Underwater coral">
                     </div>
                     <div class="floating-badge">
                         <i class="fa-solid fa-award"></i>
@@ -609,7 +682,7 @@
                 <h4>Contact</h4>
                 <ul>
                     <li><i class="fa-solid fa-location-dot"></i> Pasikudah, Kalkudah, Eastern Province, Sri Lanka</li>
-                    <li><i class="fa-solid fa-phone"></i> +94 65 225 XXXX</li>
+                    <li><i class="fa-solid fa-phone"></i> +94 75 414 6130</li>
                     <li><i class="fa-solid fa-envelope"></i> info@coastalregion.lk</li>
                 </ul>
             </div>

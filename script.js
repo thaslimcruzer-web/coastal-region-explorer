@@ -17,7 +17,7 @@ const PLACES_DATA = [
     rating: 4.9, reviews: 1284, price: 0, priceLabel: 'Free Entry',
     location: 'Pasikudah', lat: 7.9278, lng: 81.5579,
     tags: ['Swimming', 'Snorkeling', 'Sunset'],
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=800&auto=format&fit=crop',
+    image: 'images/7995096-passikudah.webp',
     openHours: 'Open 24 hrs', distance: 0.2, featured: true,
     highlights: ['Crystal clear water', 'Shallow lagoon', 'Safe for children'],
   },
@@ -27,9 +27,29 @@ const PLACES_DATA = [
     rating: 4.8, reviews: 967, price: 0, priceLabel: 'Free Entry',
     location: 'Kalkudah', lat: 7.9504, lng: 81.5604,
     tags: ['Snorkeling', 'Relaxation', 'Photography'],
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop',
+    image: 'images/Kalkudah_Beach_Sri_Lanka.jpg',
     openHours: 'Open 24 hrs', distance: 3.1, featured: true,
     highlights: ['Pristine white sand', 'Coral reefs nearby', 'Palm-fringed shore'],
+  },
+  {
+    id: 44, name: 'Pasikudah Bay', category: 'beach',
+    desc: 'A spectacular bay with crystal-clear turquoise waters and powdery white sand. The sheltered bay offers perfect conditions for swimming, kayaking, and stand-up paddleboarding with stunning panoramic views.',
+    rating: 4.9, reviews: 1456, price: 0, priceLabel: 'Free Entry',
+    location: 'Pasikudah Bay', lat: 7.9290, lng: 81.5590,
+    tags: ['Swimming', 'Kayaking', 'Bay Views', 'Photography'],
+    image: 'images/pasikuda-beach-900_orig.jpg',
+    openHours: 'Open 24 hrs', distance: 0.5, featured: true,
+    highlights: ['Sheltered bay waters', 'Panoramic ocean views', 'Perfect for water sports'],
+  },
+  {
+    id: 45, name: 'Elephant Rock', category: 'beach',
+    desc: 'A dramatic coastal formation resembling an elephant drinking from the sea. This iconic landmark offers unique photo opportunities, rocky tide pools, and excellent snorkeling around the rock formations.',
+    rating: 4.7, reviews: 823, price: 0, priceLabel: 'Free Entry',
+    location: 'Kalkudah', lat: 7.9520, lng: 81.5625,
+    tags: ['Rock Formation', 'Photography', 'Snorkeling', 'Tide Pools'],
+    image: 'images/elephant-rock-elephant.jpg',
+    openHours: 'Open 24 hrs', distance: 3.8, featured: true,
+    highlights: ['Iconic elephant-shaped rock', 'Natural tide pools', 'Excellent snorkeling spots'],
   },
   {
     id: 3, name: 'Passikudam North Reef', category: 'beach',
@@ -37,53 +57,84 @@ const PLACES_DATA = [
     rating: 4.7, reviews: 412, price: 0, priceLabel: 'Free Entry',
     location: 'Pasikudah North', lat: 7.9360, lng: 81.5599,
     tags: ['Snorkeling', 'Freediving', 'Marine Life'],
-    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=800&auto=format&fit=crop',
+    image: 'images/A-lifetime-adventures-1-970x655.jpg',
     openHours: 'Open 24 hrs', distance: 1.8, featured: false,
     highlights: ['Rocky outcrops', 'Rich marine life', 'Fewer crowds'],
   },
 
-  // --- Activities ---
+  // --- Local Highlights ---
   {
-    id: 4, name: 'Blue Coral Snorkeling Tours', category: 'activity',
-    desc: 'Guided snorkeling expeditions to the best reef sites around Pasikudah. All equipment provided. Suitable for beginners and experienced snorkelers.',
-    rating: 4.8, reviews: 768, price: 2500, priceLabel: 'LKR 2,500/person',
-    location: 'Pasikudah', lat: 7.9281, lng: 81.5570,
-    tags: ['Snorkeling', 'Guided', 'Equipment Included'],
-    image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?q=80&w=800&auto=format&fit=crop',
-    openHours: '7:00 AM – 5:00 PM', distance: 0.5, featured: true,
-    highlights: ['Certified guides', 'All gear provided', 'Reef conservation briefing'],
+    id: 54, name: 'Valaichenai Public Ground', category: 'activity',
+    desc: 'A spacious community ground hosting local events, sports, and cultural festivals. A great place to experience local community life and weekend activities.',
+    rating: 4.4, reviews: 267, price: 0, priceLabel: 'Free Entry',
+    location: 'Valaichenai', lat: 7.9080, lng: 81.5430,
+    tags: ['Community', 'Events', 'Sports', 'Local Life'],
+    image: 'images/images.jpeg',
+    openHours: '6:00 AM – 9:00 PM', distance: 3.2, featured: false,
+    highlights: ['Local sports events', 'Cultural festivals', 'Community gatherings'],
   },
   {
-    id: 5, name: 'AquaStar Scuba Diving', category: 'activity',
-    desc: 'PADI-certified dive centre offering dives to the coral gardens at 8–18 m depth. Discover colourful reef fish, sea turtles, and diverse coral structures.',
-    rating: 4.9, reviews: 521, price: 7500, priceLabel: 'LKR 7,500/dive',
-    location: 'Pasikudah', lat: 7.9270, lng: 81.5565,
-    tags: ['Scuba Diving', 'PADI', 'Coral Gardens'],
-    image: 'https://images.unsplash.com/photo-1682687982501-1e58ab814714?q=80&w=800&auto=format&fit=crop',
-    openHours: '8:00 AM – 4:00 PM', distance: 0.6, featured: true,
-    highlights: ['PADI certified', 'Coral garden dives', 'Turtle encounters'],
+    id: 55, name: 'Oddamavadi Mosque', category: 'activity',
+    desc: 'A historic mosque with beautiful architecture in the Oddamavadi area. An important cultural and religious site showcasing Islamic heritage in the region.',
+    rating: 4.7, reviews: 312, price: 0, priceLabel: 'Free Entry',
+    location: 'Oddamavadi', lat: 7.9400, lng: 81.5500,
+    tags: ['Cultural', 'Historical', 'Architecture', 'Religious'],
+    image: 'images/images (1).jpeg',
+    openHours: 'Open during prayer times', distance: 1.8, featured: false,
+    highlights: ['Historic Islamic architecture', 'Cultural significance', 'Peaceful atmosphere'],
   },
   {
-    id: 6, name: 'Wave Rider Surf School', category: 'activity',
-    desc: 'Learn to surf on the gentle waves at Kalkudah. Ideal for beginners. Group and private lessons available with certified instructors.',
-    rating: 4.6, reviews: 315, price: 4000, priceLabel: 'LKR 4,000/lesson',
-    location: 'Kalkudah', lat: 7.9510, lng: 81.5610,
-    tags: ['Surfing', 'Lessons', 'Beginners'],
-    image: 'https://images.unsplash.com/photo-1502680390469-be75c86b636f?q=80&w=800&auto=format&fit=crop',
-    openHours: '6:00 AM – 6:00 PM', distance: 3.2, featured: false,
-    highlights: ['Certified instructors', 'Board rental', 'Beginner-friendly'],
+    id: 56, name: 'Valaichenai Harbor', category: 'activity',
+    desc: 'A bustling fishing harbor where you can watch traditional fishing boats return with fresh catches. Experience the daily rhythm of coastal fishing life.',
+    rating: 4.5, reviews: 389, price: 0, priceLabel: 'Free Entry',
+    location: 'Valaichenai', lat: 7.9120, lng: 81.5480,
+    tags: ['Fishing', 'Harbor', 'Local Life', 'Photography'],
+    image: 'images/images (2).jpeg',
+    openHours: '5:00 AM – 6:00 PM', distance: 3.0, featured: true,
+    highlights: ['Active fishing harbor', 'Fresh daily catch', 'Boat watching'],
   },
   {
-    id: 7, name: 'Lagoon Kayak Adventure', category: 'activity',
-    desc: 'Self-guided or guided kayak tours across the tranquil Pasikudah lagoon. See the coast from the water and discover hidden coves.',
-    rating: 4.7, reviews: 289, price: 1800, priceLabel: 'LKR 1,800/hr',
-    location: 'Pasikudah', lat: 7.9285, lng: 81.5565,
-    tags: ['Kayaking', 'Lagoon', 'Self-guided'],
-    image: 'https://images.unsplash.com/photo-1625166836-31f4c785ce30?q=80&w=800&auto=format&fit=crop',
-    openHours: '8:00 AM – 5:00 PM', distance: 0.3, featured: false,
-    highlights: ['Single & double kayaks', 'Lagoon exploration', 'Hidden coves'],
+    id: 57, name: 'Pondukalchenai', category: 'activity',
+    desc: 'A scenic coastal village known for its traditional lifestyle, paddy fields, and authentic rural Sri Lankan culture. Perfect for cultural immersion.',
+    rating: 4.6, reviews: 234, price: 0, priceLabel: 'Free Entry',
+    location: 'Pondukalchenai', lat: 7.9200, lng: 81.5400,
+    tags: ['Village', 'Cultural', 'Rural Life', 'Scenic'],
+    image: 'images/images (3).jpeg',
+    openHours: 'Open 24 hrs', distance: 2.2, featured: false,
+    highlights: ['Traditional village life', 'Paddy field landscapes', 'Authentic local culture'],
+  },
+  {
+    id: 58, name: 'Kayankerni', category: 'activity',
+    desc: 'A picturesque coastal area with lagoons and wetlands. Rich in biodiversity and bird life, offering nature walks and birdwatching opportunities.',
+    rating: 4.7, reviews: 298, price: 0, priceLabel: 'Free Entry',
+    location: 'Kayankerni', lat: 7.8950, lng: 81.5350,
+    tags: ['Nature', 'Birdwatching', 'Wetlands', 'Photography'],
+    image: 'images/images (4).jpeg',
+    openHours: '6:00 AM – 6:00 PM', distance: 4.5, featured: false,
+    highlights: ['Wetland ecosystem', 'Diverse bird species', 'Nature photography'],
+  },
+  {
+    id: 59, name: 'Local Seafood Market', category: 'restaurant',
+    desc: 'A vibrant local market where fishermen sell their fresh daily catch. Buy seafood directly, watch the auction, and experience authentic coastal commerce.',
+    rating: 4.8, reviews: 567, price: 0, priceLabel: 'Free Entry',
+    location: 'Pasikudah', lat: 7.9285, lng: 81.5575,
+    tags: ['Seafood', 'Market', 'Local Experience', 'Fresh Catch'],
+    image: 'images/Coral-Cove-beach-2.jpg',
+    openHours: '5:00 AM – 12:00 PM', distance: 0.5, featured: true,
+    highlights: ['Fresh daily catch', 'Local fish auction', 'Direct from fishermen'],
   },
 
+  // --- Activities ---
+  {
+    id: 19, name: 'Coastal Cycling Tour', category: 'activity',
+    desc: 'Guided bicycle tour along the coastal road from Pasikudah to Kalkudah. Pass through fishing villages, paddy fields, and palm-lined lanes.',
+    rating: 4.6, reviews: 178, price: 2000, priceLabel: 'LKR 2,000/person',
+    location: 'Pasikudah', lat: 7.9290, lng: 81.5575,
+    tags: ['Cycling', 'Guided Tour', 'Coastal Views'],
+    image: 'images/WhatsApp Image 2026-04-18 at 01.23.28.jpeg',
+    openHours: '6:00 AM – 10:00 AM', distance: 0.4, featured: false,
+    highlights: ['Village scenery', 'Bike & helmet provided', 'Morning breeze ride'],
+  },
   // --- Hotels ---
   {
     id: 8, name: 'Amaya Beach Resort', category: 'hotel',
@@ -91,75 +142,75 @@ const PLACES_DATA = [
     rating: 4.8, reviews: 1102, price: 25000, priceLabel: 'LKR 25,000/night',
     location: 'Pasikudah', lat: 7.9276, lng: 81.5580,
     tags: ['Luxury', 'Beachfront', 'Pool', 'Spa'],
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800&auto=format&fit=crop',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Pasikudah_-_coconut_trees.JPG',
     openHours: 'Check-in: 2 PM', distance: 0.1, featured: true,
     highlights: ['Direct lagoon access', 'Infinity pool', 'In-house diving school'],
   },
   {
-    id: 9, name: 'Palm Village Eco Lodge', category: 'hotel',
-    desc: 'Eco-friendly cabanas nestled among palm trees, close to Kalkudah beach. A sustainable, budget-conscious option with authentic local charm.',
-    rating: 4.5, reviews: 634, price: 8500, priceLabel: 'LKR 8,500/night',
-    location: 'Kalkudah', lat: 7.9505, lng: 81.5615,
-    tags: ['Eco-Friendly', 'Budget', 'Local Charm'],
-    image: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800&auto=format&fit=crop',
-    openHours: 'Check-in: 1 PM', distance: 3.0, featured: false,
-    highlights: ['Solar powered', 'Organic meals', 'Beach 5 min walk'],
+    id: 22, name: 'Maalu Maalu Resort & Spa', category: 'hotel',
+    desc: 'An award-winning luxury resort set along Pasikudah beach with private villas, an ayurvedic spa, and multiple dining venues overlooking the ocean.',
+    rating: 4.9, reviews: 876, price: 32000, priceLabel: 'LKR 32,000/night',
+    location: 'Pasikudah', lat: 7.9265, lng: 81.5585,
+    tags: ['Luxury', 'Spa', 'Private Villas'],
+    image: 'images/WhatsApp Image 2026-04-18 at 01.23.30.jpeg',
+    openHours: 'Check-in: 2 PM', distance: 0.3, featured: true,
+    highlights: ['Private beach villas', 'Ayurvedic spa', 'Award-winning dining'],
   },
-  {
-    id: 10, name: 'Cinnamon Bey Beruwala', category: 'hotel',
-    desc: 'A boutique hotel offering modern rooms, a rooftop bar, and a lovely outdoor pool just minutes from the beach. Great for families.',
-    rating: 4.6, reviews: 788, price: 14000, priceLabel: 'LKR 14,000/night',
-    location: 'Pasikudah', lat: 7.9268, lng: 81.5572,
-    tags: ['Boutique', 'Family', 'Pool', 'Rooftop Bar'],
-    image: 'https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=800&auto=format&fit=crop',
-    openHours: 'Check-in: 2 PM', distance: 0.8, featured: false,
-    highlights: ['Rooftop bar', 'Family rooms', 'Pool with slides'],
-  },
-
-  // --- Restaurants ---
-  {
-    id: 11, name: 'The Reef Kitchen', category: 'restaurant',
-    desc: 'Fresh seafood restaurant serving the day\'s catch. Grilled fish, crab curry, lobster, and prawn dishes prepared in authentic local style.',
-    rating: 4.7, reviews: 924, price: 1500, priceLabel: 'Avg LKR 1,500/person',
-    location: 'Pasikudah', lat: 7.9273, lng: 81.5574,
-    tags: ['Seafood', 'Local Cuisine', 'Fresh Catch'],
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800&auto=format&fit=crop',
-    openHours: '11:00 AM – 10:00 PM', distance: 0.4, featured: true,
-    highlights: ['Live lobster tank', 'Beachside tables', 'Sri Lankan spices'],
-  },
-  {
-    id: 12, name: 'Sunset Café & Bar', category: 'restaurant',
-    desc: 'A laid-back beachside café perfect for watching the sunset. Serves cocktails, fresh juices, light bites, and international breakfast.',
-    rating: 4.5, reviews: 567, price: 800, priceLabel: 'Avg LKR 800/person',
-    location: 'Kalkudah', lat: 7.9500, lng: 81.5600,
-    tags: ['Café', 'Bar', 'Sunset Views'],
-    image: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?q=80&w=800&auto=format&fit=crop',
-    openHours: '7:00 AM – 11:00 PM', distance: 3.0, featured: false,
-    highlights: ['Panoramic sunset', 'Craft cocktails', 'Breakfast menu'],
-  },
-
   // --- Marine ---
-  {
-    id: 13, name: 'Turtle Sanctuary & Research Centre', category: 'marine',
-    desc: 'A conservation centre protecting sea turtle nesting sites on the coast. Visit during nesting season to see green and hawksbill turtles.',
-    rating: 4.9, reviews: 445, price: 500, priceLabel: 'LKR 500 entry',
-    location: 'Kalkudah', lat: 7.9495, lng: 81.5595,
-    tags: ['Turtles', 'Conservation', 'Education'],
-    image: 'https://images.unsplash.com/photo-1559825481-12a05cc00344?q=80&w=800&auto=format&fit=crop',
-    openHours: '9:00 AM – 5:00 PM', distance: 2.9, featured: true,
-    highlights: ['Nesting site visits', 'Conservation talks', 'Release ceremonies'],
-  },
   {
     id: 14, name: 'Coral Restoration Project Site', category: 'marine',
     desc: 'An active coral gardening and restoration project. Join researcher-led snorkeling to see restored coral frames and learn about reef ecology.',
     rating: 4.8, reviews: 218, price: 3000, priceLabel: 'LKR 3,000/session',
     location: 'Pasikudah North', lat: 7.9355, lng: 81.5597,
     tags: ['Coral', 'Conservation', 'Research'],
-    image: 'https://images.unsplash.com/photo-1546026423-cc4642628d2b?q=80&w=800&auto=format&fit=crop',
+    image: 'images/WhatsApp Image 2026-04-18 at 01.23.34.jpeg',
     openHours: '8:00 AM – 12:00 PM', distance: 1.7, featured: false,
     highlights: ['Guided by researchers', 'Coral planting', 'Free-dive option'],
   },
+
+  // Additional Dining
+  {
+    id: 40, name: 'Heritage Dining Hall', category: 'restaurant',
+    desc: 'Traditional Sri Lankan cuisine served in a restored Dutch bungalow. Experience authentic flavors and colonial ambiance.',
+    rating: 4.8, reviews: 523, price: 1400, priceLabel: 'Avg LKR 1,400/person',
+    location: 'Batticaloa', lat: 7.7310, lng: 81.6990,
+    tags: ['Traditional', 'Sri Lankan', 'Heritage'],
+    image: 'images/7995096-passikudah.webp',
+    openHours: '11:00 AM – 9:00 PM', distance: 22.2, featured: true,
+    highlights: ['Dutch bungalow setting', 'Authentic Sri Lankan food', 'Colonial ambiance'],
+  },
+
+  // Additional Marine Life
 ];
+
+const PLACE_DETAIL_CONTENT = {
+  1: { bestFor: 'Families, gentle swimming, sunrise walks, water sports', bestTime: 'Early morning and late afternoon', duration: '2 to 4 hours', access: 'Public beach access with nearby resort frontage', extraTitle: 'Beach Details', extraItems: ['Very shallow lagoon shelf extending up to 50m offshore', 'Soft white sand underfoot - comfortable for barefoot walking', 'Low surf through most mornings making it perfect for children', 'Water temperature ranges from 27-29°C year-round', 'Lagoon depth typically 0.5-1.5m near shore'], tips: ['Bring reef-safe sunscreen for midday visits to protect coral.', 'Great starter beach if you are travelling with children.', 'Rent kayaks or paddleboards for lagoon exploration.', 'The water is warmest and calmest between 9 AM - 11 AM.'] },
+  2: { bestFor: 'Quiet beach time, couples, snorkeling, relaxation', bestTime: 'Morning through sunset', duration: 'Half day', access: 'Roadside access with open beachfront sections', extraTitle: 'Beach Details', extraItems: ['Long uninterrupted shoreline stretching over 3 km', 'Quieter than main Pasikudah strip - fewer crowds', 'Strong photography spot at golden hour', 'Palm trees provide natural shade along sections', 'Coral reefs visible 100-200m from shore'], tips: ['Ideal if you want fewer crowds than Pasikudah.', 'Pair this stop with a sunset dinner nearby.', 'Best snorkeling is 150m offshore - swim or use provided boats.', 'Early morning offers calmest water and best visibility.'] },
+  3: { bestFor: 'Snorkelers, free-divers, marine observers', bestTime: 'Calm mornings with clear water', duration: '1.5 to 3 hours', access: 'Short walk from the northern coastal stretch', extraTitle: 'Reef Notes', extraItems: ['Rock-and-coral mix creating diverse marine habitats', 'Better visibility in calmer weather - up to 10m', 'Best suited to confident swimmers', 'Rich biodiversity including tropical fish and corals', 'Depth ranges from 1-8m suitable for all skill levels'], tips: ['Water shoes help on rocky sections - protect your feet.', 'Avoid stepping on reef patches near shore - they are fragile.', 'Best visibility is in the morning before winds stir sediment.', 'Bring underwater camera - the marine life is spectacular.'] },
+  19: { bestFor: 'Active travellers, photographers, culture seekers', bestTime: 'Early morning', duration: '2 to 3 hours', access: 'Guide meetup in central Pasikudah', extraTitle: 'Tour Details', extraItems: ['Bike and helmet provided', 'Fishing village route', 'Scenic coastal-road ride'], tips: ['Wear breathable clothing.', 'Morning departure avoids the stronger heat.'] },
+  8: { bestFor: 'Luxury stays, honeymooners, premium beach breaks', bestTime: 'Year-round resort stay', duration: '1 to 3 nights', access: 'Direct beachfront resort access', extraTitle: 'Stay Features', extraItems: ['Multiple pools and spa access', 'Premium lagoon-front setting', 'Suitable for resort-based holidays'], tips: ['Best if you want an all-in-one stay.', 'Reserve earlier in peak season for best rooms.'] },
+  22: { bestFor: 'Luxury travellers, wellness stays, couples', bestTime: 'Year-round', duration: '2 to 4 nights', access: 'Direct Pasikudah beachfront access', extraTitle: 'Stay Features', extraItems: ['Private villa feel', 'Ayurvedic wellness options', 'High-end dining on site'], tips: ['A stronger fit for resort-style relaxation than constant day trips.', 'Good choice if spa access matters.'] },
+  14: { bestFor: 'Eco-tourists, researchers, reef learners', bestTime: 'Morning sessions', duration: '2 to 3 hours', access: 'Guided entry only', extraTitle: 'Marine Life Details', extraItems: ['Coral restoration frames', 'Research-led interpretation', 'Hands-on reef learning'], tips: ['This visit is strongest if you want purpose-driven tourism.', 'Follow no-touch reef rules at all times.'] },
+
+  // Additional Beach Details
+  44: { bestFor: 'Families, water sports enthusiasts, photographers, couples', bestTime: 'Morning to late afternoon', duration: '2 to 4 hours', access: 'Direct beachfront access from main road with parking', extraTitle: 'Beach Details', extraItems: ['Sheltered bay with exceptionally calm waters', 'Panoramic ocean views from elevated points', 'Perfect for kayaking, paddleboarding, and swimming'], tips: ['Best swimming conditions in the morning before winds pick up.', 'Bring a camera - the bay views are stunning at all times of day.'] },
+  45: { bestFor: 'Photographers, snorkelers, nature lovers, adventurers', bestTime: 'Early morning or late afternoon', duration: '1.5 to 3 hours', access: 'Coastal path from Kalkudah main beach - 15 min walk', extraTitle: 'Beach Details', extraItems: ['Iconic elephant-shaped rock formation - local landmark', 'Natural tide pools at low tide with marine life', 'Excellent snorkeling around the rock formations'], tips: ['Visit during low tide for best tide pool exploration opportunities.', 'Be careful on wet rocky surfaces - wear water shoes.'] },
+  54: { bestFor: 'Community experience, sports fans, event attendees', bestTime: 'Late afternoon and evenings', duration: '1 to 3 hours', access: 'Central Valaichenai location', extraTitle: 'Community Space', extraItems: ['Local cricket and football matches', 'Weekend cultural performances', 'Community festivals and celebrations'], tips: ['Visit during weekends for more activities.', 'Check local event schedules before visiting.'] },
+  55: { bestFor: 'Cultural tourists, architecture enthusiasts, photographers', bestTime: 'Morning or late afternoon', duration: '30 minutes to 1 hour', access: 'Via Oddamavadi main road', extraTitle: 'Cultural Site', extraItems: ['Historic Islamic architecture', 'Important religious site for local community', 'Peaceful environment for reflection'], tips: ['Dress modestly when visiting.', 'Respect prayer times and avoid visiting during prayers.'] },
+  56: { bestFor: 'Photographers, seafood lovers, cultural observers', bestTime: 'Early morning (5-8 AM) when boats return', duration: '1 to 2 hours', access: 'Harbor road in Valaichenai', extraTitle: 'Harbor Experience', extraItems: ['Watch fishing boats unload their catch', 'Buy fresh seafood directly from fishermen', 'Experience authentic fishing community life'], tips: ['Arrive early for the best action.', 'You can buy fresh seafood at great prices.'] },
+  57: { bestFor: 'Cultural immersion, nature lovers, photographers', bestTime: 'Morning or late afternoon', duration: '1.5 to 3 hours', access: 'Village road access', extraTitle: 'Village Experience', extraItems: ['Traditional Sri Lankan village lifestyle', 'Scenic paddy field landscapes', 'Authentic rural culture'], tips: ['Respect local customs and traditions.', 'Great opportunity to photograph rural life.'] },
+  58: { bestFor: 'Bird watchers, nature photographers, eco-tourists', bestTime: 'Early morning (6-9 AM) for best bird activity', duration: '2 to 3 hours', access: 'Coastal road to Kayankerni', extraTitle: 'Nature Experience', extraItems: ['Diverse wetland ecosystem', 'Over 50 bird species recorded', 'Peaceful nature walks'], tips: ['Bring binoculars for bird watching.', 'Wear comfortable walking shoes.'] },
+  59: { bestFor: 'Seafood lovers, foodies, cultural experience seekers', bestTime: 'Early morning (5-9 AM) for freshest catch', duration: '30 minutes to 1.5 hours', access: 'Near Pasikudah beach road', extraTitle: 'Market Experience', extraItems: ['Daily fresh catch from local fishermen', 'Traditional fish auction process', 'Wide variety of seafood available'], tips: ['Cash only - no card payments.', 'Visit early for best selection.'] },
+
+  // Additional Activity Details
+
+  // Additional Dining Details
+  40: { bestFor: 'Culture seekers, food historians, groups', bestTime: 'Lunch and dinner', duration: '1.5 to 2 hours', access: 'Historic Batticaloa location', extraTitle: 'Dining Details', extraItems: ['Traditional Sri Lankan cuisine', 'Dutch bungalow setting', 'Authentic local flavors'], tips: ['Experience colonial dining ambiance.', 'Try traditional rice and curry.'] },
+
+  // Additional Marine Life Details
+  44: { bestFor: 'Families, water sports enthusiasts, photographers, couples', bestTime: 'Morning to late afternoon', duration: '2 to 4 hours', access: 'Direct beachfront access from main road', extraTitle: 'Beach Details', extraItems: ['Sheltered bay with calm waters', 'Panoramic ocean views', 'Perfect for kayaking and paddleboarding'], tips: ['Best swimming conditions in the morning.', 'Bring a camera for stunning bay views.'] },
+  45: { bestFor: 'Photographers, snorkelers, nature lovers, adventurers', bestTime: 'Early morning or late afternoon', duration: '1.5 to 3 hours', access: 'Coastal path from Kalkudah main beach', extraTitle: 'Beach Details', extraItems: ['Iconic elephant-shaped rock formation', 'Natural tide pools at low tide', 'Excellent snorkeling around rocks'], tips: ['Visit during low tide for best tide pool exploration.', 'Be careful on rocky surfaces.'] },
+};
 
 const SPECIES_DATA = {
   fish: [
@@ -198,7 +249,7 @@ const state = {
   tripItems: [],
   sightings: [],
   currentUser: null,
-  visibleCount: 6,
+  visibleCount: 100,
   envData: {
     waterTemp: 28, windSpeed: 12, waveHeight: 0.5,
     uvIndex: 5, salinity: 35, visibility: 8,
@@ -417,7 +468,7 @@ function initFilters() {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       state.currentFilter = btn.dataset.filter;
-      state.visibleCount = 6;
+      state.visibleCount = 100;
       applyFilters();
     });
   });
@@ -523,12 +574,54 @@ function catIcon(cat) {
 function capitalize(str) { return str.charAt(0).toUpperCase() + str.slice(1); }
 
 // -------------------------------------------------------
-// PLACE MODAL
+// TRIP PLANNER
 // -------------------------------------------------------
+function initTripPlanner() {
+  state.tripItems = JSON.parse(localStorage.getItem('cw_trip') || '[]');
+
+  $('clearTripBtn').addEventListener('click', () => {
+    if (state.tripItems.length === 0) return;
+    if (confirm('Clear your entire itinerary?')) {
+      state.tripItems = [];
+      saveTrip();
+      renderTrip();
+      showToast('Itinerary cleared');
+    }
+  });
+
+  $('downloadItinerary').addEventListener('click', exportItinerary);
+  renderTrip();
+}
+
+function categoryLabel(cat) {
+  return {
+    beach: 'Beach',
+    activity: 'Activity',
+    hotel: 'Accommodation',
+    restaurant: 'Dining',
+    marine: 'Marine Life',
+  }[cat] || capitalize(cat);
+}
+
+function getPlaceDetailContent(place) {
+  const fallback = {
+    bestFor: place.tags.slice(0, 2).join(', '),
+    bestTime: place.category === 'restaurant' ? 'Lunch and dinner' : 'Morning to evening',
+    duration: place.category === 'hotel' ? '1 to 3 nights' : '1 to 3 hours',
+    access: `${place.location} area access`,
+    extraTitle: 'More Details',
+    extraItems: place.highlights,
+    tips: ['Check local weather before your visit.', 'Plan this stop alongside nearby places for a smoother trip.'],
+  };
+  return { ...fallback, ...(PLACE_DETAIL_CONTENT[place.id] || {}) };
+}
+
 function openPlaceModal(place) {
   if (!place) return;
   state.currentModalPlace = place;
+  const detail = getPlaceDetailContent(place);
   const content = $('placeModalContent');
+
   content.innerHTML = `
     <div class="modal-img-wrap">
       <img src="${place.image}" alt="${place.name}">
@@ -538,7 +631,7 @@ function openPlaceModal(place) {
     <div class="modal-body-content">
       <div class="modal-header-row">
         <div>
-          <span class="modal-cat"><i class="fa-solid fa-${catIcon(place.category)}"></i> ${capitalize(place.category)}</span>
+          <span class="modal-cat"><i class="fa-solid fa-${catIcon(place.category)}"></i> ${categoryLabel(place.category)}</span>
           <h2>${place.name}</h2>
           <div class="modal-location"><i class="fa-solid fa-location-dot"></i> ${place.location} · ${getDistanceStr(place.distance)} from Pasikudah</div>
         </div>
@@ -565,6 +658,32 @@ function openPlaceModal(place) {
           <i class="fa-solid fa-tag"></i>
           <span><strong>Price</strong><br>${place.priceLabel}</span>
         </div>
+        <div class="modal-info-item">
+          <i class="fa-solid fa-star"></i>
+          <span><strong>Best For</strong><br>${detail.bestFor}</span>
+        </div>
+        <div class="modal-info-item">
+          <i class="fa-solid fa-sun"></i>
+          <span><strong>Best Time</strong><br>${detail.bestTime}</span>
+        </div>
+        <div class="modal-info-item">
+          <i class="fa-solid fa-hourglass-half"></i>
+          <span><strong>Typical Visit</strong><br>${detail.duration}</span>
+        </div>
+        <div class="modal-info-item">
+          <i class="fa-solid fa-route"></i>
+          <span><strong>Access</strong><br>${detail.access}</span>
+        </div>
+      </div>
+
+      <div class="modal-highlights">
+        <h4><i class="fa-solid fa-circle-info"></i> ${detail.extraTitle}</h4>
+        <ul>${detail.extraItems.map(item => `<li><i class="fa-solid fa-angle-right"></i> ${item}</li>`).join('')}</ul>
+      </div>
+
+      <div class="modal-highlights">
+        <h4><i class="fa-solid fa-lightbulb"></i> Travel Tips</h4>
+        <ul>${detail.tips.map(tip => `<li><i class="fa-solid fa-angle-right"></i> ${tip}</li>`).join('')}</ul>
       </div>
 
       <div class="modal-tags">${place.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
@@ -581,26 +700,6 @@ function openPlaceModal(place) {
 
   $('modalAddTrip').addEventListener('click', () => { addToTrip(place.id); closeModal('placeModal'); });
   $('modalFav').addEventListener('click', () => { toggleFav(place.id); closeModal('placeModal'); });
-}
-
-// -------------------------------------------------------
-// TRIP PLANNER
-// -------------------------------------------------------
-function initTripPlanner() {
-  state.tripItems = JSON.parse(localStorage.getItem('cw_trip') || '[]');
-
-  $('clearTripBtn').addEventListener('click', () => {
-    if (state.tripItems.length === 0) return;
-    if (confirm('Clear your entire itinerary?')) {
-      state.tripItems = [];
-      saveTrip();
-      renderTrip();
-      showToast('Itinerary cleared');
-    }
-  });
-
-  $('downloadItinerary').addEventListener('click', exportItinerary);
-  renderTrip();
 }
 
 function addToTrip(id) {
@@ -1261,6 +1360,223 @@ window.addEventListener('resize', () => {
 });
 
 // -------------------------------------------------------
+// BEACH DISCOVERY SECTION
+// -------------------------------------------------------
+const BEACH_CATEGORIES = {
+  family: [1, 2, 17, 18, 44, 50],
+  snorkeling: [1, 2, 3, 18, 44, 45],
+  secluded: [3, 18, 50],
+  cultural: [17],
+  wildlife: [3, 14, 18, 42, 50]
+};
+
+let selectedBeaches = [];
+
+function renderBeachDiscovery(category = 'all') {
+  const grid = $('beachDiscoveryGrid');
+  if (!grid) return;
+
+  const beaches = PLACES_DATA.filter(p => p.category === 'beach');
+  const filtered = category === 'all' ? beaches : beaches.filter(b => BEACH_CATEGORIES[category]?.includes(b.id));
+
+  grid.innerHTML = filtered.map((beach, index) => {
+    const detail = PLACE_DETAIL_CONTENT[beach.id] || {};
+    const features = detail.extraItems || beach.highlights;
+    const isSelected = selectedBeaches.includes(beach.id);
+
+    return `
+      <div class="beach-detail-card" data-id="${beach.id}" style="animation-delay: ${index * 0.1}s">
+        <div class="beach-card-header">
+          <img src="${beach.image}" alt="${beach.name}" loading="lazy">
+          <div class="beach-card-overlay"></div>
+          ${beach.featured ? '<div class="beach-card-badge"><i class="fa-solid fa-star"></i> Featured</div>' : ''}
+          <div class="beach-card-rating">
+            <i class="fa-solid fa-star"></i>
+            ${beach.rating} (${beach.reviews})
+          </div>
+        </div>
+        <div class="beach-card-body">
+          <h3 class="beach-card-name">${beach.name}</h3>
+          <div class="beach-card-location">
+            <i class="fa-solid fa-location-dot"></i>
+            ${beach.location} · ${getDistanceStr(beach.distance)}
+          </div>
+          <p class="beach-card-desc">${beach.desc}</p>
+          
+          <div class="beach-card-features">
+            <h4><i class="fa-solid fa-circle-info"></i> Beach Highlights</h4>
+            <ul>
+              ${features.slice(0, 3).map(f => `<li><i class="fa-solid fa-check"></i> ${f}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="beach-card-tags">
+            ${beach.tags.map(tag => `<span class="beach-tag">${tag}</span>`).join('')}
+          </div>
+
+          <div class="beach-card-actions">
+            <button class="beach-view-btn" data-id="${beach.id}">
+              <i class="fa-solid fa-eye"></i>
+              View Full Details
+            </button>
+            <button class="beach-compare-btn ${isSelected ? 'selected' : ''}" data-id="${beach.id}">
+              <i class="fa-solid fa-${isSelected ? 'check' : 'plus'}"></i>
+              ${isSelected ? 'Selected' : 'Compare'}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Animate cards
+  setTimeout(() => {
+    grid.querySelectorAll('.beach-detail-card').forEach((card, i) => {
+      setTimeout(() => card.classList.add('visible'), i * 100);
+    });
+  }, 100);
+
+  // Event listeners
+  grid.querySelectorAll('.beach-view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const beach = PLACES_DATA.find(p => p.id === parseInt(btn.dataset.id));
+      if (beach) openPlaceModal(beach);
+    });
+  });
+
+  grid.querySelectorAll('.beach-compare-btn').forEach(btn => {
+    btn.addEventListener('click', () => toggleBeachComparison(parseInt(btn.dataset.id), btn));
+  });
+}
+
+function toggleBeachComparison(beachId, btn) {
+  const index = selectedBeaches.indexOf(beachId);
+  
+  if (index > -1) {
+    selectedBeaches.splice(index, 1);
+    btn.classList.remove('selected');
+    btn.innerHTML = '<i class="fa-solid fa-plus"></i> Compare';
+  } else {
+    if (selectedBeaches.length >= 3) {
+      showToast('Maximum 3 beaches can be compared', 'error');
+      return;
+    }
+    selectedBeaches.push(beachId);
+    btn.classList.add('selected');
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Selected';
+  }
+
+  updateComparisonDisplay();
+}
+
+function updateComparisonDisplay() {
+  const slots = $('comparisonSlots');
+  const content = $('comparisonContent');
+  
+  if (!slots || !content) return;
+
+  // Update slots
+  const slotHTML = [0, 1, 2].map(i => {
+    if (i < selectedBeaches.length) {
+      const beach = PLACES_DATA.find(p => p.id === selectedBeaches[i]);
+      return `
+        <div class="comparison-slot filled">
+          <i class="fa-solid fa-umbrella-beach"></i>
+          <span>${beach.name}</span>
+        </div>
+      `;
+    } else {
+      return `
+        <div class="comparison-slot empty">
+          <i class="fa-solid fa-plus"></i>
+          <span>Select Beach ${i + 1}</span>
+        </div>
+      `;
+    }
+  }).join('');
+
+  slots.innerHTML = slotHTML;
+
+  // Show comparison content if beaches selected
+  if (selectedBeaches.length > 0) {
+    content.style.display = 'block';
+    const beaches = selectedBeaches.map(id => PLACES_DATA.find(p => p.id === id));
+    
+    content.innerHTML = `
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            ${beaches.map(b => `<th>${b.name}</th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Rating</strong></td>
+            ${beaches.map(b => `<td><i class="fa-solid fa-star" style="color: var(--accent-amber)"></i> ${b.rating}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Distance</strong></td>
+            ${beaches.map(b => `<td>${getDistanceStr(b.distance)}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Location</strong></td>
+            ${beaches.map(b => `<td>${b.location}</td>`).join('')}
+          </tr>
+          <tr>
+            <td><strong>Best For</strong></td>
+            ${beaches.map(b => {
+              const detail = PLACE_DETAIL_CONTENT[b.id] || {};
+              return `<td>${detail.bestFor || 'Beach activities'}</td>`;
+            }).join('')}
+          </tr>
+          <tr>
+            <td><strong>Best Time</strong></td>
+            ${beaches.map(b => {
+              const detail = PLACE_DETAIL_CONTENT[b.id] || {};
+              return `<td>${detail.bestTime || 'Morning'}</td>`;
+            }).join('')}
+          </tr>
+          <tr>
+            <td><strong>Features</strong></td>
+            ${beaches.map(b => {
+              const detail = PLACE_DETAIL_CONTENT[b.id] || {};
+              const features = detail.extraItems || b.highlights;
+              return `<td>${features.slice(0, 2).join(', ')}</td>`;
+            }).join('')}
+          </tr>
+          <tr>
+            <td><strong>Actions</strong></td>
+            ${beaches.map(b => `<td><button class="btn-primary btn-sm" onclick="openPlaceModal(PLACES_DATA.find(p => p.id === ${b.id}))">View Details</button></td>`).join('')}
+          </tr>
+        </tbody>
+      </table>
+    `;
+  } else {
+    content.style.display = 'none';
+  }
+}
+
+function getDistanceStr(distance) {
+  return distance < 1 ? `${(distance * 1000).toFixed(0)}m` : `${distance.toFixed(1)} km`;
+}
+
+// Beach category filter
+document.addEventListener('DOMContentLoaded', () => {
+  const beachCatBtns = document.querySelectorAll('.beach-cat-btn');
+  beachCatBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      beachCatBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderBeachDiscovery(btn.dataset.beachCat);
+    });
+  });
+
+  // Initial render
+  renderBeachDiscovery();
+});
+
+// -------------------------------------------------------
 // SEARCH FORM ON HERO — scroll-to on mobile
 // -------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
@@ -1274,3 +1590,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
