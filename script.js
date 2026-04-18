@@ -981,12 +981,11 @@ function renderSpecies(tab) {
   const grid = $('speciesGrid');
   if (!grid) return;
   const data = SPECIES_DATA[tab] || [];
-  grid.innerHTML = data.map(s => `
-    <div class="species-card">
+  grid.innerHTML = data.map((s, index) => `
+    <div class="species-card visible" style="animation-delay: ${index * 0.1}s">
       <div class="species-image-wrapper">
         <img src="${s.image}" alt="${s.name}" loading="lazy">
       </div>
-      <div class="species-color-dot" style="background:${s.color}"></div>
       <div class="species-info">
         <strong>${s.name}</strong>
         <em>${s.scientific}</em>
