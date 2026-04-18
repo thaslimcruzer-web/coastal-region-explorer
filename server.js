@@ -97,6 +97,90 @@ async function initializeDatabase() {
     `);
     console.log('✅ Favorites table initialized');
 
+    // Create places table
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS places (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(200) NOT NULL,
+        category VARCHAR(50) NOT NULL,
+        description TEXT,
+        latitude DECIMAL(10, 8) NOT NULL,
+        longitude DECIMAL(11, 8) NOT NULL,
+        image_url VARCHAR(500),
+        rating DECIMAL(3, 2) DEFAULT 0.00,
+        visitor_count INT DEFAULT 0,
+        best_time_to_visit VARCHAR(100),
+        facilities TEXT
+      )
+    `);
+    console.log('✅ Places table initialized');
+
+    // Create species table
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS species (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL UNIQUE,
+        scientific_name VARCHAR(150),
+        category ENUM('fish', 'coral', 'turtle', 'mammal', 'bird', 'invertebrate', 'algae') NOT NULL,
+        conservation_status ENUM('least_concern', 'near_threatened', 'vulnerable', 'endangered', 'critically_endangered') DEFAULT 'least_concern',
+        description TEXT,
+        image_url VARCHAR(500),
+        habitat TEXT,
+        diet TEXT,
+        size_range VARCHAR(100)
+      )
+    `);
+    console.log('✅ Species table initialized');
+
+    // Create environmental_data table
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS environmental_data (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        location VARCHAR(100) NOT NULL,
+        water_temperature DECIMAL(5,2),
+        air_temperature DECIMAL(5,2),
+        wave_height DECIMAL(5,2),
+        tide_level DECIMAL(5,2),
+        visibility DECIMAL(5,2),
+        wind_speed DECIMAL(5,2),
+        weather_condition VARCHAR(50)
+      )
+    `);
+    console.log('✅ Environmental data table initialized');
+
+    // Create conservation_projects table
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS conservation_projects (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(200) NOT NULL,
+        description TEXT,
+        location VARCHAR(100),
+        start_date DATE,
+        end_date DATE,
+        status ENUM('planned', 'active', 'completed', 'suspended') DEFAULT 'planned',
+        coordinator VARCHAR(100),
+        contact_email VARCHAR(150),
+        budget DECIMAL(10,2),
+        participants_count INT DEFAULT 0
+      )
+    `);
+    console.log('✅ Conservation projects table initialized');
+
+    // Create reviews table
+    await connection.query(`
+      CREATE TABLE IF NOT EXISTS reviews (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        place_id INT NOT NULL,
+        rating INT NOT NULL,
+        comment TEXT,
+        visit_date DATE,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        UNIQUE KEY unique_user_place_review (user_id, place_id)
+      )
+    `);
+    console.log('✅ Reviews table initialized');
+
     connection.release();
   } catch (error) {
     console.error('❌ Database initialization error:', error.message);
@@ -315,6 +399,302 @@ app.get('/api/health', async (req, res) => {
     res.json({ status: 'ok', database: 'connected' });
   } catch (error) {
     res.status(500).json({ status: 'error', database: 'disconnected' });
+  }
+});
+
+// --- Places Endpoints ---
+
+// Get all places
+app.get('/api/places', async (req, res) => {
+  try {
+    const { category, min_rating } = req.query;
+    let query = 'SELECT * FROM places';
+    const params = [];
+    
+    if (category) {
+      query += ' WHERE category = ?';
+      params.push(category);
+    }
+    
+    if (min_rating) {
+      query += category ? ' AND' : ' WHERE';
+      query += ' rating >= ?';
+      params.push(min_rating);
+    }
+    
+    query += ' ORDER BY rating DESC, visitor_count DESC';
+    
+    const [rows] = await pool.query(query, params);
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Get single place
+app.get('/api/places/:id', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM places WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'Place not found' });
+    }
+    res.json({ success: true, data: rows[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Create place
+app.post('/api/places', async (req, res) => {
+  try {
+    const { name, category, description, latitude, longitude, image_url, best_time_to_visit, facilities } = req.body;
+    
+    const [result] = await pool.query(
+      'INSERT INTO places (name, category, description, latitude, longitude, image_url, best_time_to_visit, facilities) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [name, category, description, latitude, longitude, image_url, best_time_to_visit, facilities]
+    );
+    
+    res.status(201).json({ 
+      success: true, 
+      message: 'Place added successfully!',
+      id: result.insertId 
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Update place visitor count
+app.patch('/api/places/:id/visit', async (req, res) => {
+  try {
+    await pool.query(
+      'UPDATE places SET visitor_count = visitor_count + 1 WHERE id = ?',
+      [req.params.id]
+    );
+    res.json({ success: true, message: 'Visit recorded' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// --- Species Endpoints ---
+
+// Get all species
+app.get('/api/species', async (req, res) => {
+  try {
+    const { category, conservation_status } = req.query;
+    let query = 'SELECT * FROM species';
+    const params = [];
+    
+    if (category) {
+      query += ' WHERE category = ?';
+      params.push(category);
+    }
+    
+    if (conservation_status) {
+      query += category ? ' AND' : ' WHERE';
+      query += ' conservation_status = ?';
+      params.push(conservation_status);
+    }
+    
+    query += ' ORDER BY name ASC';
+    
+    const [rows] = await pool.query(query, params);
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Get single species
+app.get('/api/species/:id', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT * FROM species WHERE id = ?', [req.params.id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'Species not found' });
+    }
+    res.json({ success: true, data: rows[0] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// --- Environmental Data Endpoints ---
+
+// Get latest environmental data
+app.get('/api/environmental', async (req, res) => {
+  try {
+    const { location } = req.query;
+    let query = 'SELECT * FROM environmental_data';
+    const params = [];
+    
+    if (location) {
+      query += ' WHERE location = ?';
+      params.push(location);
+    }
+    
+    query += ' ORDER BY recorded_at DESC LIMIT 10';
+    
+    const [rows] = await pool.query(query, params);
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Add environmental data
+app.post('/api/environmental', async (req, res) => {
+  try {
+    const { location, water_temperature, air_temperature, wave_height, tide_level, visibility, wind_speed, weather_condition } = req.body;
+    
+    const [result] = await pool.query(
+      'INSERT INTO environmental_data (location, water_temperature, air_temperature, wave_height, tide_level, visibility, wind_speed, weather_condition) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [location, water_temperature, air_temperature, wave_height, tide_level, visibility, wind_speed, weather_condition]
+    );
+    
+    res.status(201).json({ 
+      success: true, 
+      message: 'Environmental data recorded!',
+      id: result.insertId 
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// --- Conservation Projects Endpoints ---
+
+// Get all conservation projects
+app.get('/api/conservation', async (req, res) => {
+  try {
+    const { status } = req.query;
+    let query = 'SELECT * FROM conservation_projects';
+    const params = [];
+    
+    if (status) {
+      query += ' WHERE status = ?';
+      params.push(status);
+    }
+    
+    query += ' ORDER BY start_date DESC';
+    
+    const [rows] = await pool.query(query, params);
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Create conservation project
+app.post('/api/conservation', async (req, res) => {
+  try {
+    const { name, description, location, start_date, end_date, coordinator, contact_email, budget } = req.body;
+    
+    const [result] = await pool.query(
+      'INSERT INTO conservation_projects (name, description, location, start_date, end_date, coordinator, contact_email, budget) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [name, description, location, start_date, end_date, coordinator, contact_email, budget]
+    );
+    
+    res.status(201).json({ 
+      success: true, 
+      message: 'Conservation project created!',
+      id: result.insertId 
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Update project status
+app.patch('/api/conservation/:id/status', async (req, res) => {
+  try {
+    const { status } = req.body;
+    await pool.query(
+      'UPDATE conservation_projects SET status = ? WHERE id = ?',
+      [status, req.params.id]
+    );
+    res.json({ success: true, message: 'Project status updated' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// --- Reviews Endpoints ---
+
+// Get reviews for a place
+app.get('/api/reviews/:placeId', async (req, res) => {
+  try {
+    const [rows] = await pool.query(
+      'SELECT r.*, u.name as user_name FROM reviews r JOIN users u ON r.user_id = u.id WHERE r.place_id = ? ORDER BY r.created_at DESC',
+      [req.params.placeId]
+    );
+    res.json({ success: true, data: rows });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Add review
+app.post('/api/reviews', async (req, res) => {
+  try {
+    const { user_id, place_id, rating, comment, visit_date } = req.body;
+    
+    const [result] = await pool.query(
+      'INSERT INTO reviews (user_id, place_id, rating, comment, visit_date) VALUES (?, ?, ?, ?, ?)',
+      [user_id, place_id, rating, comment, visit_date]
+    );
+    
+    // Update place rating
+    const [avgResult] = await pool.query(
+      'SELECT AVG(rating) as avg_rating FROM reviews WHERE place_id = ?',
+      [place_id]
+    );
+    
+    await pool.query(
+      'UPDATE places SET rating = ? WHERE id = ?',
+      [avgResult[0].avg_rating, place_id]
+    );
+    
+    res.status(201).json({ 
+      success: true, 
+      message: 'Review added successfully!',
+      id: result.insertId 
+    });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ success: false, error: 'You have already reviewed this place' });
+    }
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Update review
+app.put('/api/reviews/:id', async (req, res) => {
+  try {
+    const { rating, comment } = req.body;
+    
+    const [result] = await pool.query(
+      'UPDATE reviews SET rating = ?, comment = ? WHERE id = ?',
+      [rating, comment, req.params.id]
+    );
+    
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, error: 'Review not found' });
+    }
+    
+    res.json({ success: true, message: 'Review updated' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Delete review
+app.delete('/api/reviews/:id', async (req, res) => {
+  try {
+    await pool.query('DELETE FROM reviews WHERE id = ?', [req.params.id]);
+    res.json({ success: true, message: 'Review deleted' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 

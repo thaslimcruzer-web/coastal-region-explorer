@@ -8,6 +8,10 @@
     "dev": "nodemon server.js",
     "frontend": "npx serve -l 3000",
     "setup-db": "mysql -u root -p < database.sql",
+    "test-connection": "node test-mysql-connection.js",
+    "test-api": "node test-api.js",
+    "sql-tools": "node sql-tools.js",
+    "test-mysql": "node test-mysql-connection.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["coastal", "tourism", "mysql", "express"],
