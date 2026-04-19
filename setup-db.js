@@ -10,15 +10,25 @@ async function setupDatabase() {
   let connection;
   
   try {
-    // Connect to MySQL
+    // Connect to MySQL (without database first)
     console.log('\n📡 Connecting to MySQL...');
     connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      port: process.env.DB_PORT
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || '',
+      port: process.env.DB_PORT || 3306
     });
     console.log('✅ Connected to MySQL\n');
+    
+    // Create database if it doesn't exist
+    const dbName = process.env.DB_NAME || 'coastal_region';
+    console.log(`📊 Creating database '${dbName}' if not exists...`);
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
+    console.log(`✅ Database '${dbName}' ready\n`);
+    
+    // Use the database
+    await connection.query(`USE \`${dbName}\``);
+    console.log(`✅ Selected database: ${dbName}\n`);
     
     // Read database.sql file
     console.log('📂 Reading database.sql...');
@@ -36,10 +46,6 @@ async function setupDatabase() {
       .filter(s => s.length > 0);
     
     console.log(`Found ${statements.length} SQL statements\n`);
-    
-    // First, use the database
-    await connection.query('USE coastal_region');
-    console.log('✅ Selected database: coastal_region\n');
     
     // Execute each statement
     let successCount = 0;
