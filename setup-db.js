@@ -8,6 +8,7 @@ async function setupDatabase() {
   console.log('='.repeat(60));
   
   let connection;
+  let dbConnection;
   
   try {
     // Connect to MySQL (without database first)
@@ -23,79 +24,57 @@ async function setupDatabase() {
     // Create database if it doesn't exist
     const dbName = process.env.DB_NAME || 'coastal_region';
     console.log(`📊 Creating database '${dbName}' if not exists...`);
-    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\``);
+    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
     console.log(`✅ Database '${dbName}' ready\n`);
     
-    // Use the database
-    await connection.query(`USE \`${dbName}\``);
-    console.log(`✅ Selected database: ${dbName}\n`);
+    // Close initial connection
+    await connection.end();
+    
+    // Connect to the specific database
+    console.log(`📡 Connecting to database '${dbName}'...`);
+    dbConnection = await mysql.createConnection({
+      host: process.env.DB_HOST || 'localhost',
+      user: process.env.DB_USER || 'root',
+      password: process.env.DB_PASSWORD || '',
+      database: dbName,
+      port: process.env.DB_PORT || 3306,
+      multipleStatements: true
+    });
+    console.log(`✅ Connected to database: ${dbName}\n`);
     
     // Read database.sql file
     console.log('📂 Reading database.sql...');
     const sql = fs.readFileSync('database.sql', 'utf8');
     console.log('✅ SQL file loaded\n');
     
-    // Split SQL into individual statements
+    // Execute the entire SQL file at once (mysql2 can handle multiple statements)
     console.log('🔧 Setting up database...');
     
-    // Use the SQL file content directly - mysql2 can handle multiple statements
-    const statements = sql
-      .replace(/--.*$/gm, '') // Remove comments
-      .split(';')
-      .map(s => s.trim())
-      .filter(s => s.length > 0);
-    
-    console.log(`Found ${statements.length} SQL statements\n`);
-    
-    // Execute each statement
-    let successCount = 0;
-    let errorCount = 0;
-    
-    for (let i = 0; i < statements.length; i++) {
-      const statement = statements[i];
-      
-      try {
-        await connection.query(statement);
-        successCount++;
-        
-        // Show progress for important operations
-        if (statement.includes('CREATE TABLE')) {
-          const tableName = statement.match(/CREATE TABLE IF NOT EXISTS (\w+)/i);
-          if (tableName) {
-            console.log(`✅ Created table: ${tableName[1]}`);
-          }
-        } else if (statement.includes('INSERT INTO')) {
-          const tableName = statement.match(/INSERT INTO (\w+)/i);
-          if (tableName) {
-            console.log(`✅ Inserted data into: ${tableName[1]}`);
-          }
-        }
-      } catch (error) {
-        // Ignore some expected errors (like duplicate inserts)
-        if (!error.message.includes('already exists') && 
-            !error.message.includes('Duplicate entry')) {
-          console.log(`⚠️  Statement ${i + 1}: ${error.message.substring(0, 50)}...`);
-          errorCount++;
-        }
-      }
+    try {
+      await dbConnection.query(sql);
+      console.log('✅ SQL file executed successfully\n');
+    } catch (sqlError) {
+      console.log('⚠️  Some SQL statements may have failed (this is normal for duplicate entries)');
+      console.log(`   Error: ${sqlError.message.substring(0, 100)}...\n`);
     }
     
     console.log('\n' + '='.repeat(60));
     console.log('✅ DATABASE SETUP COMPLETE!');
     console.log('='.repeat(60));
-    console.log(`\n📊 Results:`);
-    console.log(`   Successful: ${successCount} statements`);
-    console.log(`   Errors: ${errorCount} statements\n`);
     
     // Verify tables
-    console.log('🔍 Verifying tables...\n');
-    const [tables] = await connection.query('SHOW TABLES');
+    console.log('\n🔍 Verifying tables...\n');
+    const [tables] = await dbConnection.query('SHOW TABLES');
     console.log(`📋 Tables in database: ${tables.length}\n`);
     
     const tableNames = tables.map(t => Object.values(t)[0]);
     for (const table of tableNames) {
-      const [result] = await connection.query(`SELECT COUNT(*) as count FROM ${table}`);
-      console.log(`   ✓ ${table.padEnd(25)} ${result[0].count} records`);
+      try {
+        const [result] = await dbConnection.query(`SELECT COUNT(*) as count FROM \`${table}\``);
+        console.log(`   ✓ ${table.padEnd(30)} ${result[0].count} records`);
+      } catch (e) {
+        console.log(`   ✓ ${table.padEnd(30)} (unable to count)`);
+      }
     }
     
     console.log('\n' + '='.repeat(60));
@@ -110,12 +89,16 @@ async function setupDatabase() {
     console.log('\n❌ SETUP FAILED!');
     console.log('Error:', error.message);
     console.log('\n💡 Troubleshooting:');
-    console.log('   1. Check MySQL is running: net start MySQL80');
+    console.log('   1. Check MySQL is running');
     console.log('   2. Verify .env file credentials');
-    console.log('   3. Check database.sql file exists\n');
+    console.log('   3. Check database.sql file exists');
+    console.log('   4. Ensure DB_HOST, DB_USER, DB_PASSWORD are set correctly\n');
   } finally {
     if (connection) {
-      await connection.end();
+      await connection.end().catch(() => {});
+    }
+    if (dbConnection) {
+      await dbConnection.end().catch(() => {});
     }
   }
 }

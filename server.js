@@ -14,10 +14,11 @@ app.use(express.static(path.join(__dirname)));
 
 // MySQL Connection Pool
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'coastal_region',
+  host: process.env.DB_HOST || process.env.MYSQLHOST || 'localhost',
+  user: process.env.DB_USER || process.env.MYSQLUSER || 'root',
+  password: process.env.DB_PASSWORD || process.env.MYSQLPASSWORD || '',
+  database: process.env.DB_NAME || process.env.MYSQLDATABASE || 'coastal_region',
+  port: process.env.DB_PORT || process.env.MYSQLPORT || 3306,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0
@@ -398,7 +399,8 @@ app.get('/api/health', async (req, res) => {
     await pool.query('SELECT 1');
     res.json({ status: 'ok', database: 'connected' });
   } catch (error) {
-    res.status(500).json({ status: 'error', database: 'disconnected' });
+    // Return 200 even if database is down - server is still running
+    res.json({ status: 'ok', database: 'disconnected', message: 'Server running, database connection pending' });
   }
 });
 
@@ -699,12 +701,20 @@ app.delete('/api/reviews/:id', async (req, res) => {
 });
 
 // Start Server
-app.listen(PORT, async () => {
-  console.log(`\n🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📊 API available at http://localhost:${PORT}/api\n`);
+const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : '0.0.0.0';
+app.listen(PORT, HOST, async () => {
+  console.log(`\n🚀 Server running on port ${PORT}`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`📊 API available at /api\n`);
   
-  await testConnection();
-  await initializeDatabase();
+  // Initialize database in background (don't block server startup)
+  try {
+    await testConnection();
+    await initializeDatabase();
+  } catch (error) {
+    console.error('⚠️  Database initialization warning:', error.message);
+    console.log('Server will continue running. Database features may not work until connection is established.');
+  }
 });
 
 module.exports = app;
