@@ -10,7 +10,7 @@
         "server": "localhost",
         "port": 3306,
         "driver": "MySQL",
-        "name": "Coastal Rrgion",
+        "name": "Coastal Region",
         "database": "coastal_region",
         "username": "root"
     }

@@ -700,21 +700,23 @@ app.delete('/api/reviews/:id', async (req, res) => {
   }
 });
 
-// Start Server
-const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : '0.0.0.0';
-app.listen(PORT, HOST, async () => {
-  console.log(`\n🚀 Server running on port ${PORT}`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`📊 API available at /api\n`);
-  
-  // Initialize database in background (don't block server startup)
-  try {
-    await testConnection();
-    await initializeDatabase();
-  } catch (error) {
-    console.error('⚠️  Database initialization warning:', error.message);
-    console.log('Server will continue running. Database features may not work until connection is established.');
-  }
-});
+// Start Server (only when running directly, not on Vercel)
+if (require.main === module) {
+  const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : '0.0.0.0';
+  app.listen(PORT, HOST, async () => {
+    console.log(`\n🚀 Server running on port ${PORT}`);
+    console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`📊 API available at /api\n`);
+    
+    // Initialize database in background (don't block server startup)
+    try {
+      await testConnection();
+      await initializeDatabase();
+    } catch (error) {
+      console.error('⚠️  Database initialization warning:', error.message);
+      console.log('Server will continue running. Database features may not work until connection is established.');
+    }
+  });
+}
 
 module.exports = app;
