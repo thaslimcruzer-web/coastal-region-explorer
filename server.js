@@ -522,6 +522,29 @@ app.get('/api/species/:id', async (req, res) => {
   }
 });
 
+// Create species
+app.post('/api/species', async (req, res) => {
+  try {
+    const { name, scientific_name, category, conservation_status, description, image_url, habitat, diet, size_range } = req.body;
+    
+    const [result] = await pool.query(
+      'INSERT INTO species (name, scientific_name, category, conservation_status, description, image_url, habitat, diet, size_range) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [name, scientific_name, category, conservation_status, description, image_url, habitat, diet, size_range]
+    );
+    
+    res.status(201).json({ 
+      success: true, 
+      message: 'Species added successfully!',
+      id: result.insertId 
+    });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(400).json({ success: false, error: 'Species already exists' });
+    }
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // --- Environmental Data Endpoints ---
 
 // Get latest environmental data
