@@ -180,6 +180,18 @@ input, select, textarea { font-family: inherit; }
 .btn-primary.btn-sm { padding: .35rem 1rem; font-size: .85rem; }
 .btn-outline.btn-sm { padding: .35rem 1rem; font-size: .85rem; }
 
+/* Logout Button Style */
+.nav-actions .btn-primary[title="Log Out"],
+.nav-actions .btn-primary:has(.fa-right-from-bracket) {
+  background: var(--accent-coral);
+  box-shadow: 0 4px 14px rgba(255,77,77,.35);
+}
+.nav-actions .btn-primary[title="Log Out"]:hover,
+.nav-actions .btn-primary:has(.fa-right-from-bracket):hover {
+  background: #ff6666;
+  box-shadow: 0 6px 20px rgba(255,77,77,.4);
+}
+
 .mobile-menu-btn {
   display: none; color: #fff; font-size: 1.4rem;
   width: 42px; height: 42px; border-radius: var(--radius-sm);

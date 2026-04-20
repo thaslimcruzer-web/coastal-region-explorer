@@ -1192,11 +1192,72 @@ function closeModal(id) {
 }
 
 function updateNavUser() {
-  if (!state.currentUser) return;
   const loginBtn = $('loginBtn');
   const signupBtn = $('signupBtn');
-  if (loginBtn) loginBtn.textContent = state.currentUser.name;
-  if (signupBtn) { signupBtn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i>`; signupBtn.title = 'Log Out'; signupBtn.onclick = () => { state.currentUser = null; location.reload(); }; }
+  const mobileLoginBtn = $('mobileLoginBtn');
+  const mobileSignupBtn = $('mobileSignupBtn');
+  
+  if (state.currentUser) {
+    // User is logged in - show logout option
+    if (loginBtn) {
+      loginBtn.innerHTML = `<i class="fa-solid fa-user"></i> ${state.currentUser.name}`;
+      loginBtn.onclick = null; // Remove login click handler
+    }
+    if (signupBtn) {
+      signupBtn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Log Out`;
+      signupBtn.title = 'Log Out';
+      signupBtn.onclick = () => logout();
+    }
+    if (mobileLoginBtn) {
+      mobileLoginBtn.innerHTML = `<i class="fa-solid fa-user"></i> ${state.currentUser.name}`;
+      mobileLoginBtn.onclick = null;
+    }
+    if (mobileSignupBtn) {
+      mobileSignupBtn.innerHTML = `<i class="fa-solid fa-right-from-bracket"></i> Log Out`;
+      mobileSignupBtn.onclick = () => logout();
+    }
+  } else {
+    // User is logged out - show login/signup buttons
+    if (loginBtn) {
+      loginBtn.textContent = 'Log In';
+      loginBtn.onclick = () => openAuthModal('login');
+    }
+    if (signupBtn) {
+      signupBtn.textContent = 'Sign Up';
+      signupBtn.onclick = () => openAuthModal('signup');
+    }
+    if (mobileLoginBtn) {
+      mobileLoginBtn.textContent = 'Log In';
+      mobileLoginBtn.onclick = () => openAuthModal('login');
+    }
+    if (mobileSignupBtn) {
+      mobileSignupBtn.textContent = 'Sign Up';
+      mobileSignupBtn.onclick = () => openAuthModal('signup');
+    }
+  }
+}
+
+// Logout function
+function logout() {
+  const userName = state.currentUser?.name || 'User';
+  state.currentUser = null;
+  
+  // Clear any stored user data from localStorage if implemented
+  localStorage.removeItem('userSession');
+  
+  // Update navigation
+  updateNavUser();
+  
+  // Show success message
+  showToast(`Goodbye, ${userName}! See you soon.`);
+  
+  // Optional: Close mobile menu if open
+  const mobileMenu = $('mobileMenu');
+  if (mobileMenu && mobileMenu.classList.contains('open')) {
+    mobileMenu.classList.remove('open');
+  }
+  
+  console.log('User logged out successfully');
 }
 
 function calcPwStrength(pw) {
