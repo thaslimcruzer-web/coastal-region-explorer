@@ -14,10 +14,7 @@
     "test-api": "node test-api.js"
   },
   "engines": {
-    "node": "18.x"
-  },
-  "overrides": {
-    "node": "18.x"
+    "node": ">=18.0.0"
   },
   "keywords": ["coastal", "tourism", "mysql", "express"],
   "author": "MAHROOF THASLIM",

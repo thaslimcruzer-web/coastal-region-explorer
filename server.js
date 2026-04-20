@@ -144,7 +144,8 @@ async function initializeDatabase() {
         tide_level DECIMAL(5,2),
         visibility DECIMAL(5,2),
         wind_speed DECIMAL(5,2),
-        weather_condition VARCHAR(50)
+        weather_condition VARCHAR(50),
+        recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
     console.log('✅ Environmental data table initialized');
@@ -703,19 +704,19 @@ app.delete('/api/reviews/:id', async (req, res) => {
 // Start Server (only when running directly, not on Vercel)
 if (require.main === module) {
   const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : '0.0.0.0';
-  app.listen(PORT, HOST, async () => {
+  app.listen(PORT, HOST, () => {
     console.log(`\n🚀 Server running on port ${PORT}`);
     console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`📊 API available at /api\n`);
     
     // Initialize database in background (don't block server startup)
-    try {
-      await testConnection();
-      await initializeDatabase();
-    } catch (error) {
-      console.error('⚠️  Database initialization warning:', error.message);
-      console.log('Server will continue running. Database features may not work until connection is established.');
-    }
+    testConnection().catch(err => {
+      console.error('⚠️  Database connection warning:', err.message);
+    });
+    
+    initializeDatabase().catch(err => {
+      console.error('⚠️  Database initialization warning:', err.message);
+    });
   });
 }
 
