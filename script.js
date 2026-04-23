@@ -1435,6 +1435,48 @@ const BEACH_CATEGORIES = {
 
 let selectedBeaches = [];
 
+// Initialize beach comparison dropdowns
+function initializeBeachDropdowns() {
+  const beaches = PLACES_DATA.filter(p => p.category === 'beach');
+  
+  for (let i = 1; i <= 3; i++) {
+    const select = $(`beachSelect${i}`);
+    if (select) {
+      // Clear existing options except first
+      select.innerHTML = '<option value="">Select Beach ' + i + '</option>';
+      
+      // Add beach options
+      beaches.forEach(beach => {
+        const option = document.createElement('option');
+        option.value = beach.id;
+        option.textContent = beach.name;
+        select.appendChild(option);
+      });
+      
+      // Add change event listener
+      select.addEventListener('change', handleBeachSelection);
+    }
+  }
+}
+
+// Handle beach selection from dropdown
+function handleBeachSelection(event) {
+  const slotIndex = parseInt(event.target.dataset.slot);
+  const beachId = parseInt(event.target.value);
+  
+  // Update selectedBeaches array
+  if (beachId) {
+    selectedBeaches[slotIndex] = beachId;
+  } else {
+    selectedBeaches[slotIndex] = null;
+  }
+  
+  // Remove null values
+  selectedBeaches = selectedBeaches.filter(id => id !== null);
+  
+  updateComparisonDisplay();
+}
+
 function renderBeachDiscovery(category = 'all') {
   const grid = $('beachDiscoveryGrid');
   if (!grid) return;
@@ -1530,93 +1572,136 @@ function toggleBeachComparison(beachId, btn) {
   }
 
   updateComparisonDisplay();
+  
+  // Scroll to comparison section when beaches are selected
+  if (selectedBeaches.length > 0) {
+    const comparisonSection = document.getElementById('beachComparison');
+    if (comparisonSection) {
+      setTimeout(() => {
+        comparisonSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 300);
+    }
+  }
 }
 
 function updateComparisonDisplay() {
-  const slots = $('comparisonSlots');
   const content = $('comparisonContent');
+  const floatingBtn = $('floatingCompareBtn');
+  const compareCount = $('compareCount');
   
-  if (!slots || !content) return;
+  if (!content) {
+    alert('Error: Comparison content element not found!');
+    return;
+  }
 
-  // Update slots
-  const slotHTML = [0, 1, 2].map(i => {
-    if (i < selectedBeaches.length) {
-      const beach = PLACES_DATA.find(p => p.id === selectedBeaches[i]);
-      return `
-        <div class="comparison-slot filled">
-          <i class="fa-solid fa-umbrella-beach"></i>
-          <span>${beach.name}</span>
-        </div>
-      `;
-    } else {
-      return `
-        <div class="comparison-slot empty">
-          <i class="fa-solid fa-plus"></i>
-          <span>Select Beach ${i + 1}</span>
-        </div>
-      `;
+  console.log('DEBUG - Selected beaches:', selectedBeaches);
+
+  // Update dropdown selections
+  for (let i = 0; i < 3; i++) {
+    const select = $(`beachSelect${i + 1}`);
+    if (select) {
+      if (i < selectedBeaches.length) {
+        select.value = selectedBeaches[i];
+        select.parentElement.classList.add('filled');
+      } else {
+        select.value = '';
+        select.parentElement.classList.remove('filled');
+      }
     }
-  }).join('');
+  }
 
-  slots.innerHTML = slotHTML;
+  // Show/hide floating button
+  if (floatingBtn && compareCount) {
+    if (selectedBeaches.length > 0) {
+      floatingBtn.style.display = 'flex';
+      compareCount.textContent = selectedBeaches.length;
+    } else {
+      floatingBtn.style.display = 'none';
+    }
+  }
 
-  // Show comparison content if beaches selected
+  // Always show comparison content area
+  content.style.display = 'block';
+  content.style.background = 'rgba(255,255,255,.05)';
+  content.style.minHeight = '100px';
+  
   if (selectedBeaches.length > 0) {
-    content.style.display = 'block';
     const beaches = selectedBeaches.map(id => PLACES_DATA.find(p => p.id === id));
+    
+    console.log('DEBUG - Beaches to compare:', beaches);
+    
+    // Filter out any undefined beaches
+    const validBeaches = beaches.filter(b => b !== undefined);
+    
+    console.log('DEBUG - Valid beaches:', validBeaches);
+    
+    if (validBeaches.length === 0) {
+      content.innerHTML = '<p style="color: rgba(255,255,255,0.6); text-align: center; padding: 2rem;"><i class="fa-solid fa-info-circle"></i><br>No beach data available for comparison.</p>';
+      return;
+    }
     
     content.innerHTML = `
       <table class="comparison-table">
         <thead>
           <tr>
             <th>Feature</th>
-            ${beaches.map(b => `<th>${b.name}</th>`).join('')}
+            ${validBeaches.map(b => `<th>${b.name}</th>`).join('')}
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><strong>Rating</strong></td>
-            ${beaches.map(b => `<td><i class="fa-solid fa-star" style="color: var(--accent-amber)"></i> ${b.rating}</td>`).join('')}
+            ${validBeaches.map(b => `<td><i class="fa-solid fa-star" style="color: var(--accent-amber)"></i> ${b.rating}</td>`).join('')}
           </tr>
           <tr>
             <td><strong>Distance</strong></td>
-            ${beaches.map(b => `<td>${getDistanceStr(b.distance)}</td>`).join('')}
+            ${validBeaches.map(b => `<td>${getDistanceStr(b.distance)}</td>`).join('')}
           </tr>
           <tr>
             <td><strong>Location</strong></td>
-            ${beaches.map(b => `<td>${b.location}</td>`).join('')}
+            ${validBeaches.map(b => `<td>${b.location}</td>`).join('')}
           </tr>
           <tr>
             <td><strong>Best For</strong></td>
-            ${beaches.map(b => {
+            ${validBeaches.map(b => {
               const detail = PLACE_DETAIL_CONTENT[b.id] || {};
               return `<td>${detail.bestFor || 'Beach activities'}</td>`;
             }).join('')}
           </tr>
           <tr>
             <td><strong>Best Time</strong></td>
-            ${beaches.map(b => {
+            ${validBeaches.map(b => {
               const detail = PLACE_DETAIL_CONTENT[b.id] || {};
               return `<td>${detail.bestTime || 'Morning'}</td>`;
             }).join('')}
           </tr>
           <tr>
             <td><strong>Features</strong></td>
-            ${beaches.map(b => {
+            ${validBeaches.map(b => {
               const detail = PLACE_DETAIL_CONTENT[b.id] || {};
-              const features = detail.extraItems || b.highlights;
+              const features = detail.extraItems || b.highlights || ['N/A'];
               return `<td>${features.slice(0, 2).join(', ')}</td>`;
             }).join('')}
           </tr>
           <tr>
             <td><strong>Actions</strong></td>
-            ${beaches.map(b => `<td><button class="btn-primary btn-sm" onclick="openPlaceModal(PLACES_DATA.find(p => p.id === ${b.id}))">View Details</button></td>`).join('')}
+            ${validBeaches.map(b => `<td><button class="btn-primary btn-sm" onclick="openPlaceModal(PLACES_DATA.find(p => p.id === ${b.id}))">View Details</button></td>`).join('')}
           </tr>
         </tbody>
       </table>
     `;
+    
+    console.log('DEBUG - Table rendered successfully');
   } else {
-    content.style.display = 'none';
+    // Show placeholder when no beaches selected
+    content.innerHTML = `
+      <div style="text-align: center; padding: 3rem 2rem; color: rgba(255,255,255,0.5);">
+        <i class="fa-solid fa-hand-pointer" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: rgba(255,255,255,0.7);">Select Beaches to Compare</p>
+        <p style="font-size: 0.9rem;">Use the dropdown menus above to select up to 3 beaches for comparison.</p>
+      </div>
+    `;
+    console.log('DEBUG - Showing placeholder');
   }
 }
 
@@ -1634,6 +1719,20 @@ document.addEventListener('DOMContentLoaded', () => {
       renderBeachDiscovery(btn.dataset.beachCat);
     });
   });
+
+  // Floating compare button
+  const floatingCompareBtn = $('floatingCompareBtn');
+  if (floatingCompareBtn) {
+    floatingCompareBtn.addEventListener('click', () => {
+      const comparisonSection = $('beachComparison');
+      if (comparisonSection) {
+        comparisonSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    });
+  }
+
+  // Initialize beach comparison dropdowns
+  initializeBeachDropdowns();
 
   // Initial render
   renderBeachDiscovery();
@@ -1653,4 +1752,433 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// -------------------------------------------------------
+// ABOUT FEATURE DETAILS MODAL
+// -------------------------------------------------------
+const ABOUT_FEATURES_DATA = {
+  'Eco-Friendly Tourism': {
+    icon: 'fa-earth-asia',
+    color: '#00c896',
+    title: 'Eco-Friendly Tourism',
+    description: 'We promote sustainable tourism practices that protect the natural beauty and ecological integrity of the Pasikudah and Kalkudah coastal regions.',
+    details: [
+      'Zero-waste beach initiatives and regular cleanup drives',
+      'Partnership with eco-certified hotels and resorts',
+      'Promotion of non-motorized water sports (kayaking, paddleboarding)',
+      'Educational programs for tourists on coral reef protection',
+      'Support for local organic farming and sustainable seafood',
+      'Carbon offset programs for travel accommodations'
+    ],
+    impact: 'Over 50+ eco-friendly businesses certified, 10,000+ tourists educated on sustainable practices annually'
+  },
+  'Scientific Research Support': {
+    icon: 'fa-microscope',
+    color: '#8370ff',
+    title: 'Scientific Research Support',
+    description: 'We collaborate with marine biologists, oceanographers, and environmental scientists to study and preserve the rich marine biodiversity of the region.',
+    details: [
+      'Coral reef health monitoring and restoration programs',
+      'Marine species tracking and population studies',
+      'Water quality testing and environmental impact assessments',
+      'Data collection platform for research institutions',
+      'Support for university marine biology field studies',
+      'Publication of annual coastal ecosystem reports'
+    ],
+    impact: '15+ research projects supported, 200+ marine species documented, 3 coral restoration sites established'
+  },
+  'Community Partnership': {
+    icon: 'fa-handshake',
+    color: '#ff6b6b',
+    title: 'Community Partnership',
+    description: 'We work closely with local communities to ensure tourism benefits residents while preserving cultural heritage and traditional livelihoods.',
+    details: [
+      'Training programs for local tour guides and hospitality workers',
+      'Support for fishermen transitioning to sustainable practices',
+      'Promotion of local handicrafts and cultural experiences',
+      'Community-led homestay and guesthouse programs',
+      'Revenue sharing models for beach access and activities',
+      'Cultural preservation initiatives and heritage tours'
+    ],
+    impact: '500+ local families benefiting, 80+ community guides trained, 30+ local businesses partnered'
+  },
+  'Safety Monitoring': {
+    icon: 'fa-shield-halved',
+    color: '#00b8d4',
+    title: 'Safety Monitoring',
+    description: 'Our real-time environmental monitoring system ensures visitor safety with up-to-date information on coastal conditions and potential hazards.',
+    details: [
+      '24/7 water quality and wave condition monitoring',
+      'Real-time weather alerts and typhoon warnings',
+      'UV index tracking and sun safety recommendations',
+      'Tide forecasting and rip current detection',
+      'Emergency response coordination with local authorities',
+      'Safety equipment stations at major beaches'
+    ],
+    impact: '99.9% safety record, 500+ alerts issued annually, average response time under 5 minutes'
+  }
+};
+
+// -------------------------------------------------------
+// EASTERN PROVINCE DETAILS
+// -------------------------------------------------------
+const EASTERN_PROVINCE_DATA = {
+  title: 'Eastern Province, Sri Lanka',
+  subtitle: 'A Hidden Paradise on the Indian Ocean',
+  icon: 'fa-location-dot',
+  color: '#00b8d4',
+  overview: 'The Eastern Province is one of Sri Lanka\'s most diverse and culturally rich regions, known for its pristine beaches, ancient temples, and vibrant multicultural heritage. Home to the world-famous Pasikudah and Kalkudah beaches, this province offers visitors an authentic tropical paradise experience.',
+  geography: {
+    area: '9,996 square kilometers',
+    coastline: 'Over 300 km of pristine coastline',
+    districts: ['Trincomalee', 'Batticaloa', 'Ampara'],
+    capital: 'Trincomalee'
+  },
+  highlights: [
+    'Pasikudah Beach - One of the world\'s shallowest coastal lagoons with crystal-clear waters',
+    'Kalkudah Beach - Pristine white sand beaches perfect for snorkeling and relaxation',
+    'Trincomalee Harbor - One of the finest natural deep-water harbors in the world',
+    'Koneswaram Temple - Ancient Hindu temple perched on Swami Rock cliff',
+    'Batticaloa Lagoon - Famous for its "singing fish" phenomenon',
+    'Pigeon Island National Park - Excellent snorkeling and diving destination',
+    'Ampara Wildlife Sanctuary - Home to elephants and diverse bird species'
+  ],
+  culture: {
+    description: 'A unique blend of Sri Lankan Tamil, Muslim, Sinhalese, and indigenous Vedda communities',
+    languages: ['Tamil', 'Sinhala', 'Muslim (Tamil/Malay)', 'English'],
+    festivals: ['Thai Pongal', 'Ramadan', 'Esala Perahera', 'Kataragama Festival'],
+    cuisine: ['Fresh seafood', 'Coconut-based curries', 'Hoppers', 'Kottu Roti', 'Traditional sweets']
+  },
+  climate: {
+    bestTime: 'April to September (dry season)',
+    temperature: '27-32°C year-round',
+    rainfall: 'Monsoon patterns differ from rest of Sri Lanka',
+    waterTemp: '27-29°C - perfect for swimming'
+  },
+  activities: [
+    'Snorkeling and scuba diving at coral reefs',
+    'Whale and dolphin watching (seasonal)',
+    'Surfing at Arugam Bay (world-class surf spot)',
+    'Historical temple and fort tours',
+    'Bird watching in lagoons and wetlands',
+    'Deep sea fishing expeditions',
+    'Cultural immersion with local communities',
+    'Kayaking through mangrove forests'
+  ],
+  statistics: {
+    beaches: '50+ pristine beaches',
+    marineSpecies: '200+ documented marine species',
+    coralReefs: '15+ major coral reef systems',
+    touristsYearly: '100,000+ annual visitors',
+    UNESCO: 'Multiple heritage sites nearby'
+  }
+};
+
+function openAboutFeatureModal(featureName) {
+  const feature = ABOUT_FEATURES_DATA[featureName];
+  if (!feature) {
+    console.error('Feature not found:', featureName);
+    return;
+  }
+
+  const modal = $('aboutFeatureModal');
+  const content = $('aboutFeatureModalContent');
+
+  if (!modal || !content) {
+    console.error('Modal elements not found');
+    return;
+  }
+
+  content.innerHTML = `
+    <div style="padding: 2rem;">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: ${feature.color}15;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1rem;
+          font-size: 2.5rem;
+          color: ${feature.color};
+        ">
+          <i class="fa-solid ${feature.icon}"></i>
+        </div>
+        <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">${feature.title}</h2>
+        <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.6;">${feature.description}</p>
+      </div>
+
+      <div style="background: var(--surface-2); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-list-check" style="color: ${feature.color};"></i>
+          Key Initiatives
+        </h3>
+        <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+          ${feature.details.map(detail => `
+            <li style="display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.92rem; color: var(--text-secondary); line-height: 1.5;">
+              <i class="fa-solid fa-check-circle" style="color: ${feature.color}; margin-top: 0.2rem; flex-shrink: 0;"></i>
+              <span>${detail}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <div style="
+        background: linear-gradient(135deg, ${feature.color}10, ${feature.color}05);
+        border: 1px solid ${feature.color}30;
+        border-radius: var(--radius-md);
+        padding: 1.2rem;
+      ">
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: ${feature.color}; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-chart-line"></i>
+          Our Impact
+        </h4>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.5; font-weight: 500;">
+          ${feature.impact}
+        </p>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// Add event listeners for about feature buttons
+document.addEventListener('DOMContentLoaded', () => {
+  const aboutFeatures = document.querySelectorAll('.about-feature');
+  aboutFeatures.forEach(feature => {
+    feature.style.cursor = 'pointer';
+    feature.addEventListener('click', () => {
+      const featureName = feature.querySelector('span').textContent;
+      openAboutFeatureModal(featureName);
+    });
+  });
+
+  // Close button for about feature modal
+  const closeAboutModal = $('closeAboutFeatureModal');
+  if (closeAboutModal) {
+    closeAboutModal.addEventListener('click', () => {
+      $('aboutFeatureModal').classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+
+  // Close modal when clicking overlay
+  const aboutFeatureModal = $('aboutFeatureModal');
+  if (aboutFeatureModal) {
+    aboutFeatureModal.addEventListener('click', (e) => {
+      if (e.target === aboutFeatureModal) {
+        aboutFeatureModal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+
+  // Eastern Province badge click handler
+  const heroLocationBadge = $('heroLocationBadge');
+  if (heroLocationBadge) {
+    heroLocationBadge.addEventListener('click', () => {
+      openEasternProvinceModal();
+    });
+  }
+
+  // Close button for Eastern Province modal
+  const closeEasternModal = $('closeEasternProvinceModal');
+  if (closeEasternModal) {
+    closeEasternModal.addEventListener('click', () => {
+      $('easternProvinceModal').classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+
+  // Close Eastern Province modal when clicking overlay
+  const easternProvinceModal = $('easternProvinceModal');
+  if (easternProvinceModal) {
+    easternProvinceModal.addEventListener('click', (e) => {
+      if (e.target === easternProvinceModal) {
+        easternProvinceModal.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  }
+});
+
+// -------------------------------------------------------
+// EASTERN PROVINCE MODAL FUNCTION
+// -------------------------------------------------------
+function openEasternProvinceModal() {
+  const data = EASTERN_PROVINCE_DATA;
+  const modal = $('easternProvinceModal');
+  const content = $('easternProvinceModalContent');
+
+  if (!modal || !content) {
+    console.error('Eastern Province modal elements not found');
+    return;
+  }
+
+  content.innerHTML = `
+    <div style="padding: 2rem;">
+      <!-- Header -->
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="
+          width: 90px;
+          height: 90px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, ${data.color}20, ${data.color}10);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 1.2rem;
+          font-size: 2.8rem;
+          color: ${data.color};
+          box-shadow: 0 8px 24px ${data.color}25;
+        ">
+          <i class="fa-solid ${data.icon}"></i>
+        </div>
+        <h2 style="font-size: 2rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem;">${data.title}</h2>
+        <p style="font-size: 1.05rem; color: ${data.color}; font-weight: 600; margin-bottom: 1rem;">${data.subtitle}</p>
+        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.7; max-width: 600px; margin: 0 auto;">${data.overview}</p>
+      </div>
+
+      <!-- Statistics Grid -->
+      <div style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      ">
+        <div style="background: linear-gradient(135deg, ${data.color}15, ${data.color}08); border: 1px solid ${data.color}25; border-radius: var(--radius-md); padding: 1rem; text-align: center;">
+          <i class="fa-solid fa-umbrella-beach" style="font-size: 1.5rem; color: ${data.color}; margin-bottom: 0.5rem; display: block;"></i>
+          <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary);">${data.statistics.beaches}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Beaches</div>
+        </div>
+        <div style="background: linear-gradient(135deg, ${data.color}15, ${data.color}08); border: 1px solid ${data.color}25; border-radius: var(--radius-md); padding: 1rem; text-align: center;">
+          <i class="fa-solid fa-fish" style="font-size: 1.5rem; color: ${data.color}; margin-bottom: 0.5rem; display: block;"></i>
+          <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary);">${data.statistics.marineSpecies}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Marine Species</div>
+        </div>
+        <div style="background: linear-gradient(135deg, ${data.color}15, ${data.color}08); border: 1px solid ${data.color}25; border-radius: var(--radius-md); padding: 1rem; text-align: center;">
+          <i class="fa-solid fa-water" style="font-size: 1.5rem; color: ${data.color}; margin-bottom: 0.5rem; display: block;"></i>
+          <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary);">${data.statistics.coralReefs}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Coral Reefs</div>
+        </div>
+        <div style="background: linear-gradient(135deg, ${data.color}15, ${data.color}08); border: 1px solid ${data.color}25; border-radius: var(--radius-md); padding: 1rem; text-align: center;">
+          <i class="fa-solid fa-users" style="font-size: 1.5rem; color: ${data.color}; margin-bottom: 0.5rem; display: block;"></i>
+          <div style="font-size: 1.3rem; font-weight: 800; color: var(--text-primary);">${data.statistics.touristsYearly}</div>
+          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem;">Annual Visitors</div>
+        </div>
+      </div>
+
+      <!-- Geography -->
+      <div style="background: var(--surface-2); border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-map" style="color: ${data.color};"></i>
+          Geography
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem;">
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            <strong style="color: var(--text-primary); display: block; margin-bottom: 0.2rem;">Area:</strong>
+            ${data.geography.area}
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            <strong style="color: var(--text-primary); display: block; margin-bottom: 0.2rem;">Coastline:</strong>
+            ${data.geography.coastline}
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            <strong style="color: var(--text-primary); display: block; margin-bottom: 0.2rem;">Capital:</strong>
+            ${data.geography.capital}
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-secondary);">
+            <strong style="color: var(--text-primary); display: block; margin-bottom: 0.2rem;">Districts:</strong>
+            ${data.geography.districts.join(', ')}
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Highlights -->
+      <div style="background: linear-gradient(135deg, ${data.color}10, ${data.color}05); border: 1px solid ${data.color}20; border-radius: var(--radius-md); padding: 1.5rem; margin-bottom: 1.5rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-star" style="color: var(--accent-amber);"></i>
+          Top Highlights
+        </h3>
+        <ul style="display: flex; flex-direction: column; gap: 0.7rem;">
+          ${data.highlights.map(h => `
+            <li style="display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5;">
+              <i class="fa-solid fa-check-circle" style="color: ${data.color}; margin-top: 0.15rem; flex-shrink: 0;"></i>
+              <span>${h}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <!-- Culture & Climate Grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+        <!-- Culture -->
+        <div style="background: var(--surface-2); border-radius: var(--radius-md); padding: 1.5rem;">
+          <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-people-group" style="color: #ff6b6b;"></i>
+            Culture
+          </h3>
+          <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.8rem; line-height: 1.5;">${data.culture.description}</p>
+          <div style="margin-bottom: 0.6rem;">
+            <strong style="font-size: 0.8rem; color: var(--text-primary); display: block; margin-bottom: 0.3rem;">Languages:</strong>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+              ${data.culture.languages.map(l => `<span style="background: ${data.color}15; color: ${data.color}; padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); font-size: 0.75rem; font-weight: 600;">${l}</span>`).join('')}
+            </div>
+          </div>
+          <div>
+            <strong style="font-size: 0.8rem; color: var(--text-primary); display: block; margin-bottom: 0.3rem;">Festivals:</strong>
+            <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+              ${data.culture.festivals.map(f => `<span style="background: #ff6b6b15; color: #ff6b6b; padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); font-size: 0.75rem; font-weight: 600;">${f}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <!-- Climate -->
+        <div style="background: var(--surface-2); border-radius: var(--radius-md); padding: 1.5rem;">
+          <h3 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-sun" style="color: var(--accent-amber);"></i>
+            Climate
+          </h3>
+          <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">
+              <i class="fa-solid fa-calendar" style="color: ${data.color}; margin-right: 0.5rem;"></i>
+              <strong>Best Time:</strong> ${data.climate.bestTime}
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">
+              <i class="fa-solid fa-temperature-half" style="color: #ff6b6b; margin-right: 0.5rem;"></i>
+              <strong>Temperature:</strong> ${data.climate.temperature}
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">
+              <i class="fa-solid fa-droplet" style="color: #36aeff; margin-right: 0.5rem;"></i>
+              <strong>Water Temp:</strong> ${data.climate.waterTemp}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activities -->
+      <div style="background: linear-gradient(135deg, #00c89610, #00c89605); border: 1px solid #00c89625; border-radius: var(--radius-md); padding: 1.5rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-person-swimming" style="color: #00c896;"></i>
+          Popular Activities
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.7rem;">
+          ${data.activities.map(a => `
+            <div style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.88rem; color: var(--text-secondary);">
+              <i class="fa-solid fa-circle-check" style="color: #00c896; flex-shrink: 0;"></i>
+              <span>${a}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 

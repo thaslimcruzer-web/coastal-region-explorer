@@ -75,7 +75,7 @@
         <div class="hero-bg-overlay"></div>
         <div class="hero-particles" id="heroParticles"></div>
         <div class="hero-content" data-aos="fade-up">
-            <div class="hero-badge">
+            <div class="hero-badge" id="heroLocationBadge" style="cursor: pointer;" title="Click to learn about Eastern Province">
                 <i class="fa-solid fa-location-dot"></i>
                 Eastern Province, Sri Lanka
             </div>
@@ -245,21 +245,33 @@
             <h3><i class="fa-solid fa-code-compare"></i> Compare Beaches</h3>
             <p>Select up to 3 beaches to compare their features side-by-side.</p>
             <div class="comparison-slots" id="comparisonSlots">
-                <div class="comparison-slot empty">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Select Beach 1</span>
+                <div class="comparison-slot">
+                    <i class="fa-solid fa-umbrella-beach"></i>
+                    <select class="beach-select" id="beachSelect1" data-slot="0">
+                        <option value="">Select Beach 1</option>
+                    </select>
                 </div>
-                <div class="comparison-slot empty">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Select Beach 2</span>
+                <div class="comparison-slot">
+                    <i class="fa-solid fa-umbrella-beach"></i>
+                    <select class="beach-select" id="beachSelect2" data-slot="1">
+                        <option value="">Select Beach 2</option>
+                    </select>
                 </div>
-                <div class="comparison-slot empty">
-                    <i class="fa-solid fa-plus"></i>
-                    <span>Select Beach 3</span>
+                <div class="comparison-slot">
+                    <i class="fa-solid fa-umbrella-beach"></i>
+                    <select class="beach-select" id="beachSelect3" data-slot="2">
+                        <option value="">Select Beach 3</option>
+                    </select>
                 </div>
             </div>
-            <div class="comparison-content" id="comparisonContent" style="display:none;"></div>
+            <div class="comparison-content" id="comparisonContent"></div>
         </div>
+
+        <!-- Floating Compare Button -->
+        <button class="floating-compare-btn" id="floatingCompareBtn" style="display:none;">
+            <i class="fa-solid fa-code-compare"></i>
+            <span>Compare (<span id="compareCount">0</span>)</span>
+        </button>
     </section>
 
     <!-- Explore Section -->
@@ -822,6 +834,22 @@
             <button class="modal-close" id="closeAlertModal"><i class="fa-solid fa-xmark"></i></button>
             <h3><i class="fa-solid fa-bell"></i> Weather & Safety Alerts</h3>
             <div id="alertModalContent"></div>
+        </div>
+    </div>
+
+    <!-- About Feature Detail Modal -->
+    <div class="modal-overlay" id="aboutFeatureModal">
+        <div class="modal-container" style="max-width: 600px;">
+            <button class="modal-close" id="closeAboutFeatureModal"><i class="fa-solid fa-xmark"></i></button>
+            <div id="aboutFeatureModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Eastern Province Detail Modal -->
+    <div class="modal-overlay" id="easternProvinceModal">
+        <div class="modal-container" style="max-width: 700px;">
+            <button class="modal-close" id="closeEasternProvinceModal"><i class="fa-solid fa-xmark"></i></button>
+            <div id="easternProvinceModalContent"></div>
         </div>
     </div>
 
